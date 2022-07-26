@@ -1,0 +1,357 @@
+<template>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+      <div class="grid grid-cols-3 gap-y-4 gap-x-4">
+        <video id="live-video" v-if="isCameraStarted" width="320" height="240" autoplay/>
+        <canvas id="live-camera" width="320" height="240"/>
+        <canvas id="live-canvas" width="320" height="240"/>
+        <canvas id="live-temp" width="224" height="224"/>
+        <div class="grid place-items-center h-scree">
+          <button @click="detect_passive_detection" type="button" class="whitespace-nowrap inline-flex items-center justify-center p-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700" aria-expanded="false" :disabled="button_status">Passive Liveness Test</button>
+          <button @click="detect_active_detection" type="button" class="whitespace-nowrap inline-flex items-center justify-center p-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700" aria-expanded="false" :disabled="button_status">Active Liveness Test</button>
+          <button @click="enroll_face" type="button" class="whitespace-nowrap inline-flex items-center justify-center p-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700" aria-expanded="false" :disabled="button_status">Enroll Face</button>
+        </div>
+      </div>
+    </div>
+</template>
+<script>
+  import * as faceapi from "../lib/face"
+  //import {Tensor, InferenceSession} from "onnxruntime-web";
+  import axios from "axios"
+  import {predict_eye, predict_pose} from "../lib/face";
+
+  export default {
+    data() {
+      return {
+        start_question: true,
+        user_email: null,
+        image: null,
+        max_questions: 6,
+        try_count: 10,
+        continuous_blink_count: 0,
+        total_blink_count: 0,
+        challenge: null,
+        questions: ["smile", "surprise", "blink eyes", "angry", "turn face right", "turn face left", "turn face up",
+          "turn face down"],
+        emotions: {0: "angry", 1: "disgust", 2: "fear", 3: "smile", 4: "sad", 5: "surprise", 6: "neutral"},
+        active_count: 0,
+        button_status: false,
+        detect_session: null, //InferenceSession,
+        live_session: null, //InferenceSession,
+        landmark_session: null, //InferenceSession,
+        pose_session: null, //InferenceSession,
+        expression_session: null, //InferenceSession,
+        eye_session: null, //InferenceSession,
+      }
+    },
+    components: {
+    },
+    computed: {
+      isCameraStarted () {
+        return this.$store.getters['camera/isCameraStarted']
+      }
+    },
+    methods: {
+    check_result(question, out_model, blinks_up) {
+      if (question === "smile") {
+       if (out_model["emotion"] === "smile") {
+          this.challenge = "pass"
+        } else {
+          this.challenge = "fail"
+        }
+      } else if (question === "surprise") {
+        if (out_model["emotion"] === "surprise") {
+          this.challenge = "pass"
+        }
+        else {
+          this.challenge = "fail"
+        }
+      } else if (question === "angry") {
+        if (out_model["emotion"] === "angry")
+          this.challenge = "pass"
+        else
+          this.challenge = "fail"
+      } else if (question === "turn face right") {
+        if (out_model["orientation"] === "right")
+          this.challenge = "pass"
+        else
+          this.challenge = "fail"
+      } else if (question === "turn face left") {
+        if (out_model["orientation"] === "left")
+          this.challenge = "pass"
+        else
+          this.challenge = "fail"
+      } else if (question === "turn face up") {
+        if (out_model["orientation"] === "up")
+          this.challenge = "pass"
+        else
+          this.challenge = "fail"
+      } else if (question === "turn face down") {
+        if (out_model["orientation"] === "down")
+          this.challenge = "pass"
+        else
+          this.challenge = "fail"
+      } else if (question === "blink eyes") {
+        if (blinks_up === true)
+          this.challenge = "pass"
+        else
+          this.challenge = "fail"
+      } else {
+      }
+    },
+
+    close_camera() {
+      this.$store.dispatch('camera/stopCamera')
+    },
+
+    async show_photo () {
+      // const video = document.getElementById("live-video");
+      // video.addEventListener("playing", function() {
+      //   const canvas = document.getElementById('live-camera');
+      //   const canvasCtx = canvas.getContext('2d');
+      //
+      //   setTimeout(() => {
+      //       canvasCtx.drawImage(video, 0, 0, 320, 240);
+      //   }, 100)
+      //
+      //   //resolve(video);
+      // });
+
+      const video = document.getElementById('live-video')
+      const canvas = document.getElementById('live-camera')
+      const canvasCtx = canvas.getContext('2d')
+      canvasCtx.drawImage(video, 0, 0, 320, 240)
+
+      this.image = canvas.toDataURL('image/jpeg')
+      canvasCtx.strokeStyle = "red"
+      canvasCtx.rect(100, 60, 120, 120)
+      canvasCtx.stroke()
+      setTimeout(() => this.show_photo(), 33)
+    },
+
+    async take_photo () {
+      const video = document.getElementById('live-video');
+      const canvas = document.getElementById('live-canvas');
+      const canvasCtx = canvas.getContext('2d');
+      canvasCtx.drawImage(video, 0, 0, 320, 240);
+      this.image = canvas.toDataURL('image/jpeg');
+
+      // ------- save image locally -------
+      // var img = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+      // window.location.href=img;
+
+      // ------ load image locally ------
+      // var img1 = new Image();
+      //
+      // //drawing of the test image - img1
+      // img1.onload = function () {
+      //     //draw background image
+      //     canvasCtx.drawImage(img1, 0, 0);
+      //     //draw a box over the top
+      //     // canvasCtx.fillStyle = "rgba(200, 0, 0, 0.5)";
+      //     // canvasCtx.fillRect(0, 0, 500, 500);
+      //
+      // };
+      //
+      // img1.src = 'download.png';
+
+    },
+
+    async show_camera() {
+      await this.$store.dispatch('camera/startCamera')
+          .then((stream) => {
+            const videoDiv = document.getElementById('live-video')
+            videoDiv.srcObject = stream
+
+            // const canvas = document.getElementById('live-camera')
+            // const canvasCtx = canvas.getContext('2d')
+            // canvasCtx.drawImage(videoDiv, 0, 0, 320, 240)
+            // videoDiv.style.webkitTransform = "scaleX(-1)"
+            // videoDiv.style.transform = "scaleX(-1)"
+          })
+      await this.show_photo()
+    },
+
+    async detect_passive_detection() {
+      this.button_status = true
+      await this.take_photo()
+      const detection_output = await faceapi.detect_photo(this.detect_session, 'live-canvas')
+      /*
+      var bbox = detection_output.bbox;
+      var face_count = bbox.shape[0],
+      bbox_size = bbox.shape[1];
+
+      for (let i = 0; i < face_count; i++) {
+        var x1 = parseInt(bbox.data[i * bbox_size]),
+            y1 = parseInt(bbox.data[i * bbox_size + 1]),
+            x2 = parseInt(bbox.data[i * bbox_size + 2]),
+            y2 = parseInt(bbox.data[i * bbox_size + 3]),
+            width = Math.abs(x2 - x1),
+            height = Math.abs(y2 - y1);
+
+            const canvas = document.getElementById('live-canvas');
+            const canvasCtx = canvas.getContext('2d');
+
+            canvasCtx.strokeStyle = "red"
+            canvasCtx.rect(x1, y1, width, height)
+            canvasCtx.stroke()
+      }*/
+
+      const result = await faceapi.predict_liveness(this.live_session, 'live-canvas', detection_output.bbox)
+      if (result === true) {
+        this.$notify({group: "fr-success", title: "Passive Liveness Result", text: "The input image is live."}, 3000)
+      } else {
+        this.$notify({group: "fr-error", title: "Passive Liveness Result", text: "The input image is fake."}, 3000)
+      }
+      this.button_status = false
+    },
+
+    async detect_active_detection() {
+      this.button_status = true;
+      this.active_count = 0;
+      for (let i = 0; i < this.max_questions; i++) {
+        const idx = Math.floor(Math.random() * 6);
+
+        if (this.start_question) {
+          this.$notify({group: "state", title: "Active Liveness State", text: this.questions[idx]}, 1000);
+        }
+
+        this.start_question = false;
+        let success = false;
+
+        for (let j = 0; j < this.try_count; j++) {
+          const start_time = performance.now();
+          this.take_photo();
+
+          // pseudo code
+          await axios.post(
+                "http://127.0.0.1:8000/face/active/liveness/result",
+                {
+                  "image": this.image,
+                  "question": this.questions[idx],
+                  "blink_count": this.continuous_blink_count,
+                  "total_count": this.total_blink_count
+                }
+            ).then((response) => {
+                console.log('The api works.');
+            }).catch((error) => {
+                //console.warn('The error occurs.');
+            })
+
+          const detection_output = await faceapi.detect_photo(this.detect_session, 'live-canvas');
+          const end_time = performance.now();
+
+          // console.log("[detect_active_detection] process time: ", end_time - start_time, detection_output.bbox);
+          const points = await faceapi.predict_landmark(this.landmark_session, 'live-canvas', detection_output.bbox);
+          const pose_questions = ["turn face right", "turn face left", "turn face up", "turn face down"];
+          var pose_result = null;
+
+          if (pose_questions.includes(this.questions[idx]))
+            pose_result = await faceapi.predict_pose(this.pose_session, 'live-canvas', detection_output.bbox, this.questions[idx]);
+
+          const expression_questions = ["smile", "surprise", "angry"]
+          var expression_result = null;
+          if (expression_questions.includes(this.questions[idx]))
+            expression_result = await faceapi.predict_expression(this.expression_session, 'live-canvas', detection_output.bbox);
+
+          const eye_result = await faceapi.predict_eye(this.eye_session, 'live-canvas', points);
+
+          const previous_blink_count = this.total_blink_count;
+          if (eye_result)
+            this.continuous_blink_count = this.continuous_blink_count + 1
+          else {
+            if (this.continuous_blink_count >= 1)
+              this.total_blink_count = this.total_blink_count + 1
+          }
+
+          const output_status = {
+            "box_face_frontal": 3,
+            "box_orientation": 5,
+            "emotion": this.emotions[expression_result],
+            "orientation": pose_result,
+            "total_blinks": this.total_blink_count,
+            "count_continuous_blinks": this.continuous_blink_count
+          };
+
+          let blinks_up = false;
+          if (this.total_blink_count - previous_blink_count > 0)
+            blinks_up = true;
+
+          this.check_result(this.questions[idx], output_status, blinks_up);
+
+          setTimeout(() => this.start_question = true, 40);
+          if (this.challenge === "pass") {
+            success = true;
+            break;
+          }
+        }
+
+        //console.log("active status [1]: ", success, j, this.try_count)
+        if (success) {
+          this.$notify({group: "success", title: "Active Liveness Result", text: "pass"}, 1000);
+          this.active_count++;
+        } else {
+          console.log("error case: ", this.questions[idx]);
+          break;
+        }
+
+        setTimeout(() => this.start_question = true, 40);
+      }
+
+      console.log("active status [2]:  ", this.active_count, this.max_questions);
+      if (this.active_count === this.max_questions)
+        this.$notify({group: "fr-success", title: "Active Liveness Result", text: "The result is live."}, 4000);
+      else
+        this.$notify({group: "fr-error", title: "Active Liveness Result", text: "The result is fake."}, 4000);
+
+      this.continuous_blink_count = 0;
+      this.total_blink_count = 0;
+      this.button_status = false;
+    },
+
+    async enroll_face() {
+      this.button_status = true;
+      if (this.user_email === null)
+          return
+
+      await this.take_photo();
+      const response = await axios.post(
+          "http://127.0.0.1:8000/face/enroll/feature",
+          {
+            "image": this.image,
+            "user_email": this.user_email
+          }
+      )
+
+      if (response.data["isEnrolled"] === true) {
+        this.$notify({group: "success", title: "Face Enrollment Result", text: "The input face has been enrolled successfully."}, 2000);
+      } else {
+        this.$notify({group: "error", title: "Face Enrollment Result", text: "The input face has been enrolled successfully."}, 2000);
+      }
+      this.button_status = false;
+    },
+
+    async exit () {
+      this.close_camera()
+      await this.$router.push("/")
+    },
+
+    async load_models() {
+      await faceapi.load_opencv();
+      this.detect_session = await faceapi.load_detection_model();
+      this.live_session = await faceapi.load_live_model();
+      this.landmark_session = await faceapi.load_landmark_model();
+      this.pose_session = await faceapi.load_pose_model();
+      this.expression_session = await faceapi.load_expression_model();
+      this.eye_session = await faceapi.load_eye_model();
+    },
+  },
+
+  mounted() {
+    this.user_email = this.$store.getters['face/fetch_user_info']
+    this.load_models()
+    this.show_camera()
+  },
+
+  }
+</script>
+
