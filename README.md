@@ -2,13 +2,13 @@
 
 This is a js package for face recognition components.
 
-## use
+## How it works
 
-+ browser
+### browser
 
 `<script src="/dist/facerecognition-sdk.js"></script>`
 
-+ node
+### node
 
 `npm install facerecognition-sdk.js`
 
