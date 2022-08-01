@@ -1,6 +1,7 @@
 # Face-SDK-Javascript
 
-This is a js package for face recognition components.
+This is a javascript package for face recognition components.
+It includes face detection, face anti-spoofing detection, landmark extraction, eye closeness detection and expression recognition.
 
 ## How it works
 
@@ -14,4 +15,4 @@ This is a js package for face recognition components.
 
 ## Contact
 - [Slack](https://join.slack.com/t/prenes/shared_invite/zt-1cx925fip-vL4nKJN64XBMbx8vdwHP7Q)
-- [Whatsapp](+14422295661)
+- [Whatsapp](wa.me/+14422295661)

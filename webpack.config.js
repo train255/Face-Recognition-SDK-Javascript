@@ -3,6 +3,8 @@ const path = require('path');
 const webpack = require('webpack');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
+const CopyPlugin = require("copy-webpack-plugin");
+
 
 module.exports = {
     mode: 'production', // 环境
@@ -19,10 +21,14 @@ module.exports = {
     },
 
     plugins: [
-        new CleanWebpackPlugin(), // 清除上一次打包内容
+        new CleanWebpackPlugin(),
         new webpack.SourceMapDevToolPlugin({
             filename: 'facerecognition-sdk.js.map'
         }),
+        new CopyPlugin({
+            // Use copy plugin to copy *.wasm to output folder.
+            patterns: [{ from: 'node_modules/onnxruntime-web/dist/*.wasm', to: '[name][ext]' }]
+        })
     ],
     optimization: {
         minimize: true,

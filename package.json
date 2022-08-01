@@ -11,8 +11,7 @@
     "type": "git",
     "url": "git+https://github.com/AI-Innovator/Face-SDK-Javascript.git"
   },
-  "keywords": [
-  ],
+  "keywords": [],
   "author": "",
   "license": "MIT",
   "bugs": {
@@ -29,10 +28,13 @@
     "eslint": "^8.3.0",
     "jest": "^27.4.3",
     "terser-webpack-plugin": "^5.2.5",
-    "webpack": "^5.64.4",
-    "webpack-cli": "^4.9.1",
     "ndarray": "^1.0.19",
     "ndarray-ops": "^1.2.2",
     "onnxruntime-web": "^1.8.0-dev.20210708.0"
+  },
+  "devDependencies": {
+    "copy-webpack-plugin": "^8.1.1",
+    "webpack": "^5.64.4",
+    "webpack-cli": "^4.9.1"
   }
 }
