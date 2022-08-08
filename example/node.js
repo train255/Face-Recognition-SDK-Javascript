@@ -1,2 +1,2 @@
-const fegqTestAdd = require('../dist/mytest').add;
-console.log(fegqTestAdd(1,2)); // 3
+const fegqTestAdd = require('../dist/facerecognition-sdk');
+console.log(fegqTestAdd.loadPoseModel());

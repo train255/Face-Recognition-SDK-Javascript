@@ -1,2 +1,6 @@
-const mytest = require('./lib/index');
-module.exports = mytest;
+function add(a, b) {
+    console.log("111111111");
+    return a + b;
+}
+
+export {add}

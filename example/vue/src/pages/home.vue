@@ -14,8 +14,8 @@
     </div>
 </template>
 <script>
-  import * as faceapi from "../lib/face"
-  //import {Tensor, InferenceSession} from "onnxruntime-web";
+  import * as faceapi from "../lib/face";
+  //import {Tensor} from "onnxruntime-web";
   import axios from "axios"
   import {predict_eye, predict_pose} from "../lib/face";
 
@@ -347,9 +347,9 @@
   },
 
   mounted() {
-    this.user_email = this.$store.getters['face/fetch_user_info']
-    this.load_models()
-    this.show_camera()
+    this.user_email = this.$store.getters['face/fetch_user_info'];
+    this.load_models();
+    this.show_camera();
   },
 
   }

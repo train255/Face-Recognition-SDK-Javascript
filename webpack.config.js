@@ -7,48 +7,36 @@ const CopyPlugin = require("copy-webpack-plugin");
 
 
 module.exports = {
-    mode: 'production', // 环境
+    mode: 'production',
     devtool: false,
-    entry: './index.js', // 入口文件
+    entry: './index.js',
+    target: ['web'],
     output: {
-        path: path.resolve(__dirname, './dist'), // 输出文件夹
-        filename: 'facerecognition-sdk.js', // 文件名称
-        globalObject: 'this', // 全局对象
+        path: path.resolve(__dirname, './dist'),
+        filename: 'facerecognition-sdk.js',
+        // globalObject: 'this',
         library: {
-          name: 'facerecognition-sdk',
-          type: 'umd',
-        },
+            type: 'umd'
+        }
     },
 
     plugins: [
         new CleanWebpackPlugin(),
-        new webpack.SourceMapDevToolPlugin({
-            filename: 'facerecognition-sdk.js.map'
-        }),
+        // new webpack.SourceMapDevToolPlugin({
+        //     filename: 'facerecognition-sdk.js.map'
+        // }),
         new CopyPlugin({
             // Use copy plugin to copy *.wasm to output folder.
             patterns: [{ from: 'node_modules/onnxruntime-web/dist/*.wasm', to: '[name][ext]' }]
         })
     ],
-    optimization: {
-        minimize: true,
-        minimizer: [new TerserPlugin({
-            terserOptions: {
-                ecma: undefined,
-                parse: {},
-                compress: {},
-                mangle: true, // Note `mangle.properties` is `false` by default.
-                module: false,
-                // Deprecated
-                output: null,
-                format: null,
-                toplevel: false,
-                nameCache: null,
-                ie8: false,
-                keep_classnames: undefined,
-                keep_fnames: false,
-                safari10: false,
-            },
-        })],
-    }
+    module: {
+        rules: [
+          {
+            test: /\.(js)$/,
+            exclude: /node_modules/,
+            use: "babel-loader",
+          },
+        ],
+  },
 }
