@@ -1,21 +1,21 @@
 <template>
-    <div class="max-w-7xl mx-auto px-4 sm:px-6">
-      <div class="grid grid-cols-3 gap-y-4 gap-x-4">
-        <video id="live-video" v-if="isCameraStarted" width="320" height="240" autoplay/>
-        <canvas id="live-camera" width="320" height="240"/>
-        <canvas id="live-canvas" width="320" height="240"/>
-        <canvas id="live-temp" width="224" height="224"/>
-        <div class="grid place-items-center h-scree">
-<!--          <button @click="detect_passive_detection" type="button" class="whitespace-nowrap inline-flex items-center justify-center p-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700" aria-expanded="false" :disabled="button_status">Passive Liveness Test</button>-->
-<!--          <button @click="detect_active_detection" type="button" class="whitespace-nowrap inline-flex items-center justify-center p-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700" aria-expanded="false" :disabled="button_status">Active Liveness Test</button>-->
-<!--          <button @click="enroll_face" type="button" class="whitespace-nowrap inline-flex items-center justify-center p-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700" aria-expanded="false" :disabled="button_status">Enroll Face</button>-->
-        </div>
-      </div>
+  <div class="flex flex-row">
+    <image-list @changeI="changeImage($event)"/>
+    <canvas id="live-canvas" width="640" height="480"/>
+    <div class="flex flex-col">
+      <button @click="" type="button" class="px-6 py-2 font-semibold text-white bg-gray-800 rounded-md hover:opacity-95 focus:outline-none" aria-expanded="false">Detect Face</button>
+      <button @click="" type="button" class="px-6 py-2 font-semibold text-white bg-gray-800 rounded-md hover:opacity-95 focus:outline-none" aria-expanded="false">Extract Landmark</button>
+      <button @click="" type="button" class="px-6 py-2 font-semibold text-white bg-gray-800 rounded-md hover:opacity-95 focus:outline-none" aria-expanded="false">Detect Liveness</button>
+      <button @click="" type="button" class="px-6 py-2 font-semibold text-white bg-gray-800 rounded-md hover:opacity-95 focus:outline-none" aria-expanded="false">Estimate Face Pose</button>
+      <button @click="" type="button" class="px-6 py-2 font-semibold text-white bg-gray-800 rounded-md hover:opacity-95 focus:outline-none" aria-expanded="false">Estimate Face Expression</button>
     </div>
+
+  </div>
 </template>
 <script>
+  import imageList from "./imageList.vue";
   import * as faceapi from "../lib/face";
-  import {loadPoseModel} from "face-recognition-plugin";
+  import * as faceSDK from "face-recognition-plugin";
   //import {Tensor} from "onnxruntime-web";
   import axios from "axios"
   import {predict_eye, predict_pose} from "../lib/face";
@@ -23,6 +23,7 @@
   export default {
     data() {
       return {
+        filename: null,
         start_question: true,
         user_email: null,
         image: null,
@@ -45,6 +46,7 @@
       }
     },
     components: {
+      imageList
     },
     computed: {
       isCameraStarted () {
@@ -52,7 +54,11 @@
       }
     },
     methods: {
-    check_result(question, out_model, blinks_up) {
+      changeImage(filename) {
+        this.filename = filename;
+      },
+
+      check_result(question, out_model, blinks_up) {
       if (question === "smile") {
        if (out_model["emotion"] === "smile") {
           this.challenge = "pass"
@@ -100,11 +106,11 @@
       }
     },
 
-    close_camera() {
-      this.$store.dispatch('camera/stopCamera')
-    },
+      close_camera() {
+        this.$store.dispatch('camera/stopCamera')
+      },
 
-    async show_photo () {
+      async show_photo () {
       // const video = document.getElementById("live-video");
       // video.addEventListener("playing", function() {
       //   const canvas = document.getElementById('live-camera');
@@ -129,35 +135,33 @@
       setTimeout(() => this.show_photo(), 33)
     },
 
-    async take_photo () {
-      const video = document.getElementById('live-video');
+      async take_photo () {
       const canvas = document.getElementById('live-canvas');
       const canvasCtx = canvas.getContext('2d');
-      canvasCtx.drawImage(video, 0, 0, 320, 240);
-      this.image = canvas.toDataURL('image/jpeg');
+      // this.image = canvas.toDataURL('image/jpeg');
 
       // ------- save image locally -------
       // var img = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
       // window.location.href=img;
 
       // ------ load image locally ------
-      // var img1 = new Image();
-      //
-      // //drawing of the test image - img1
-      // img1.onload = function () {
-      //     //draw background image
-      //     canvasCtx.drawImage(img1, 0, 0);
-      //     //draw a box over the top
-      //     // canvasCtx.fillStyle = "rgba(200, 0, 0, 0.5)";
-      //     // canvasCtx.fillRect(0, 0, 500, 500);
-      //
-      // };
-      //
-      // img1.src = 'download.png';
+      const img1 = new Image();
+
+      //drawing of the test image - img1
+      img1.onload = function () {
+          //draw background image
+          canvasCtx.drawImage(img1, 0, 0);
+          //draw a box over the top
+          // canvasCtx.fillStyle = "rgba(200, 0, 0, 0.5)";
+          // canvasCtx.fillRect(0, 0, 500, 500);
+
+      };
+
+      img1.src = 'empty.png';
 
     },
 
-    async show_camera() {
+      async show_camera() {
       await this.$store.dispatch('camera/startCamera')
           .then((stream) => {
             const videoDiv = document.getElementById('live-video')
@@ -172,7 +176,7 @@
       await this.show_photo()
     },
 
-    async detect_passive_detection() {
+      async detect_passive_detection() {
       this.button_status = true
       await this.take_photo()
       const detection_output = await faceapi.detect_photo(this.detect_session, 'live-canvas')
@@ -206,7 +210,7 @@
       this.button_status = false
     },
 
-    async detect_active_detection() {
+      async detect_active_detection() {
       this.button_status = true;
       this.active_count = 0;
       for (let i = 0; i < this.max_questions; i++) {
@@ -309,7 +313,7 @@
       this.button_status = false;
     },
 
-    async enroll_face() {
+      async enroll_face() {
       this.button_status = true;
       if (this.user_email === null)
           return
@@ -331,24 +335,24 @@
       this.button_status = false;
     },
 
-    async exit () {
+      async exit () {
       this.close_camera()
       await this.$router.push("/")
     },
 
-    async load_models() {
-      await faceapi.load_opencv();
-      this.detect_session = await faceapi.load_detection_model();
-      this.live_session = await faceapi.load_live_model();
-      this.landmark_session = await faceapi.load_landmark_model();
-      this.pose_session = await faceapi.load_pose_model();
-      this.expression_session = await faceapi.load_expression_model();
-      this.eye_session = await faceapi.load_eye_model();
+      async load_models() {
+      await faceSDK.loadDetectionModel();
+      await faceSDK.loadExpressionModel();
+      await faceSDK.loadEyeModel();
+      await faceSDK.loadLandmarkModel();
+      await faceSDK.loadLivenessModel();
+      await faceSDK.loadPoseModel();
     },
   },
 
   mounted() {
-      loadPoseModel();
+      this.load_models();
+      this.take_photo();
       // console.log(">>>>>>>>>: ", add(1, 2));
   },
 
