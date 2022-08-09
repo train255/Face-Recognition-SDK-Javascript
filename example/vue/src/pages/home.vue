@@ -6,15 +6,16 @@
         <canvas id="live-canvas" width="320" height="240"/>
         <canvas id="live-temp" width="224" height="224"/>
         <div class="grid place-items-center h-scree">
-          <button @click="detect_passive_detection" type="button" class="whitespace-nowrap inline-flex items-center justify-center p-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700" aria-expanded="false" :disabled="button_status">Passive Liveness Test</button>
-          <button @click="detect_active_detection" type="button" class="whitespace-nowrap inline-flex items-center justify-center p-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700" aria-expanded="false" :disabled="button_status">Active Liveness Test</button>
-          <button @click="enroll_face" type="button" class="whitespace-nowrap inline-flex items-center justify-center p-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700" aria-expanded="false" :disabled="button_status">Enroll Face</button>
+<!--          <button @click="detect_passive_detection" type="button" class="whitespace-nowrap inline-flex items-center justify-center p-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700" aria-expanded="false" :disabled="button_status">Passive Liveness Test</button>-->
+<!--          <button @click="detect_active_detection" type="button" class="whitespace-nowrap inline-flex items-center justify-center p-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700" aria-expanded="false" :disabled="button_status">Active Liveness Test</button>-->
+<!--          <button @click="enroll_face" type="button" class="whitespace-nowrap inline-flex items-center justify-center p-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700" aria-expanded="false" :disabled="button_status">Enroll Face</button>-->
         </div>
       </div>
     </div>
 </template>
 <script>
   import * as faceapi from "../lib/face";
+  import {loadPoseModel} from "face-recognition-plugin";
   //import {Tensor} from "onnxruntime-web";
   import axios from "axios"
   import {predict_eye, predict_pose} from "../lib/face";
@@ -347,9 +348,8 @@
   },
 
   mounted() {
-    this.user_email = this.$store.getters['face/fetch_user_info'];
-    this.load_models();
-    this.show_camera();
+      loadPoseModel();
+      // console.log(">>>>>>>>>: ", add(1, 2));
   },
 
   }

@@ -1,8 +1,8 @@
 {
-  "name": "facerecognition-sdk.js",
-  "version": "1.0.3",
+  "name": "face-recognition-plugin",
+  "version": "1.0.0",
   "description": "",
-  "main": "./dist/facerecognition-sdk.js",
+  "main": "index.js",
   "scripts": {
     "test": "jest",
     "build": "webpack"

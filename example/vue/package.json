@@ -1,5 +1,5 @@
 {
-  "name": "FR_Demo",
+  "name": "Face-Recognition-Vue3",
   "private": true,
   "version": "0.0.0",
   "scripts": {
@@ -11,7 +11,7 @@
     "@fortawesome/vue-fontawesome": "^2.0.6",
     "axios": "^0.26.1",
     "core-js": "^3.8.3",
-    "facerecognition-sdk.js": "file:../..",
+    "face-recognition-plugin": "../..",
     "ndarray": "^1.0.19",
     "ndarray-ops": "^1.2.2",
     "notiwind": "^1.2.5",
