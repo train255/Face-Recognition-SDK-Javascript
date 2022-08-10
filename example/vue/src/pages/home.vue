@@ -3,64 +3,80 @@
     <image-list @changeI="changeImage($event)"/>
     <canvas id="live-canvas" width="640" height="480"/>
     <div class="flex flex-col">
-      <button @click="" type="button" class="px-6 py-2 font-semibold text-white bg-gray-800 rounded-md hover:opacity-95 focus:outline-none" aria-expanded="false">Detect Face</button>
-      <button @click="" type="button" class="px-6 py-2 font-semibold text-white bg-gray-800 rounded-md hover:opacity-95 focus:outline-none" aria-expanded="false">Extract Landmark</button>
-      <button @click="" type="button" class="px-6 py-2 font-semibold text-white bg-gray-800 rounded-md hover:opacity-95 focus:outline-none" aria-expanded="false">Detect Liveness</button>
-      <button @click="" type="button" class="px-6 py-2 font-semibold text-white bg-gray-800 rounded-md hover:opacity-95 focus:outline-none" aria-expanded="false">Estimate Face Pose</button>
-      <button @click="" type="button" class="px-6 py-2 font-semibold text-white bg-gray-800 rounded-md hover:opacity-95 focus:outline-none" aria-expanded="false">Estimate Face Expression</button>
+      <button @click="detectFace" type="button"
+              class="px-6 py-2 font-semibold text-white bg-gray-800 rounded-md hover:opacity-95 focus:outline-none"
+              aria-expanded="false">Detect Face
+      </button>
+      <button @click="" type="button"
+              class="px-6 py-2 font-semibold text-white bg-gray-800 rounded-md hover:opacity-95 focus:outline-none"
+              aria-expanded="false">Extract Landmark
+      </button>
+      <button @click="" type="button"
+              class="px-6 py-2 font-semibold text-white bg-gray-800 rounded-md hover:opacity-95 focus:outline-none"
+              aria-expanded="false">Detect Liveness
+      </button>
+      <button @click="" type="button"
+              class="px-6 py-2 font-semibold text-white bg-gray-800 rounded-md hover:opacity-95 focus:outline-none"
+              aria-expanded="false">Estimate Face Pose
+      </button>
+      <button @click="" type="button"
+              class="px-6 py-2 font-semibold text-white bg-gray-800 rounded-md hover:opacity-95 focus:outline-none"
+              aria-expanded="false">Estimate Face Expression
+      </button>
     </div>
 
   </div>
 </template>
 <script>
-  import imageList from "./imageList.vue";
-  import * as faceapi from "../lib/face";
-  import * as faceSDK from "face-recognition-plugin";
-  //import {Tensor} from "onnxruntime-web";
-  import axios from "axios"
-  import {predict_eye, predict_pose} from "../lib/face";
+import imageList from "./imageList.vue";
+import * as faceapi from "../lib/face";
+import * as faceSDK from "face-recognition-plugin";
+//import {Tensor} from "onnxruntime-web";
+import axios from "axios"
+import {predict_eye, predict_pose} from "../lib/face";
 
-  export default {
-    data() {
-      return {
-        filename: null,
-        start_question: true,
-        user_email: null,
-        image: null,
-        max_questions: 6,
-        try_count: 10,
-        continuous_blink_count: 0,
-        total_blink_count: 0,
-        challenge: null,
-        questions: ["smile", "surprise", "blink eyes", "angry", "turn face right", "turn face left", "turn face up",
-          "turn face down"],
-        emotions: {0: "angry", 1: "disgust", 2: "fear", 3: "smile", 4: "sad", 5: "surprise", 6: "neutral"},
-        active_count: 0,
-        button_status: false,
-        detect_session: null, //InferenceSession,
-        live_session: null, //InferenceSession,
-        landmark_session: null, //InferenceSession,
-        pose_session: null, //InferenceSession,
-        expression_session: null, //InferenceSession,
-        eye_session: null, //InferenceSession,
-      }
+export default {
+  data() {
+    return {
+      filename: null,
+      start_question: true,
+      user_email: null,
+      image: null,
+      max_questions: 6,
+      try_count: 10,
+      continuous_blink_count: 0,
+      total_blink_count: 0,
+      challenge: null,
+      questions: ["smile", "surprise", "blink eyes", "angry", "turn face right", "turn face left", "turn face up",
+        "turn face down"],
+      emotions: {0: "angry", 1: "disgust", 2: "fear", 3: "smile", 4: "sad", 5: "surprise", 6: "neutral"},
+      active_count: 0,
+      button_status: false,
+      detect_session: null, //InferenceSession,
+      live_session: null, //InferenceSession,
+      landmark_session: null, //InferenceSession,
+      pose_session: null, //InferenceSession,
+      expression_session: null, //InferenceSession,
+      eye_session: null, //InferenceSession,
+    }
+  },
+  components: {
+    imageList
+  },
+  computed: {
+    isCameraStarted() {
+      return this.$store.getters['camera/isCameraStarted']
+    }
+  },
+  methods: {
+    changeImage(filename) {
+      this.filename = filename;
+      this.selectImage(filename);
     },
-    components: {
-      imageList
-    },
-    computed: {
-      isCameraStarted () {
-        return this.$store.getters['camera/isCameraStarted']
-      }
-    },
-    methods: {
-      changeImage(filename) {
-        this.filename = filename;
-      },
 
-      check_result(question, out_model, blinks_up) {
+    check_result(question, out_model, blinks_up) {
       if (question === "smile") {
-       if (out_model["emotion"] === "smile") {
+        if (out_model["emotion"] === "smile") {
           this.challenge = "pass"
         } else {
           this.challenge = "fail"
@@ -68,8 +84,7 @@
       } else if (question === "surprise") {
         if (out_model["emotion"] === "surprise") {
           this.challenge = "pass"
-        }
-        else {
+        } else {
           this.challenge = "fail"
         }
       } else if (question === "angry") {
@@ -106,11 +121,11 @@
       }
     },
 
-      close_camera() {
-        this.$store.dispatch('camera/stopCamera')
-      },
+    close_camera() {
+      this.$store.dispatch('camera/stopCamera')
+    },
 
-      async show_photo () {
+    async show_photo() {
       // const video = document.getElementById("live-video");
       // video.addEventListener("playing", function() {
       //   const canvas = document.getElementById('live-camera');
@@ -135,7 +150,7 @@
       setTimeout(() => this.show_photo(), 33)
     },
 
-      async take_photo () {
+    async take_photo() {
       const canvas = document.getElementById('live-canvas');
       const canvasCtx = canvas.getContext('2d');
       // this.image = canvas.toDataURL('image/jpeg');
@@ -149,11 +164,11 @@
 
       //drawing of the test image - img1
       img1.onload = function () {
-          //draw background image
-          canvasCtx.drawImage(img1, 0, 0);
-          //draw a box over the top
-          // canvasCtx.fillStyle = "rgba(200, 0, 0, 0.5)";
-          // canvasCtx.fillRect(0, 0, 500, 500);
+        //draw background image
+        canvasCtx.drawImage(img1, 0, 0);
+        //draw a box over the top
+        // canvasCtx.fillStyle = "rgba(200, 0, 0, 0.5)";
+        // canvasCtx.fillRect(0, 0, 500, 500);
 
       };
 
@@ -161,22 +176,41 @@
 
     },
 
-      async show_camera() {
-      await this.$store.dispatch('camera/startCamera')
-          .then((stream) => {
-            const videoDiv = document.getElementById('live-video')
-            videoDiv.srcObject = stream
-
-            // const canvas = document.getElementById('live-camera')
-            // const canvasCtx = canvas.getContext('2d')
-            // canvasCtx.drawImage(videoDiv, 0, 0, 320, 240)
-            // videoDiv.style.webkitTransform = "scaleX(-1)"
-            // videoDiv.style.transform = "scaleX(-1)"
-          })
-      await this.show_photo()
+    selectImage(imageFile) {
+      const canvas = document.getElementById('live-canvas');
+      const canvasCtx = canvas.getContext('2d');
+      const img1 = new Image();
+      img1.onload = function () {
+        canvasCtx.drawImage(img1, 0, 0, 640, 480);
+      };
+      img1.src = imageFile;
     },
 
-      async detect_passive_detection() {
+    async detectFace() {
+      const detection_output = await faceSDK.detectFace(this.detect_session, 'live-canvas');
+
+      var bbox = detection_output.bbox;
+      var face_count = bbox.shape[0],
+      bbox_size = bbox.shape[1];
+
+      for (let i = 0; i < face_count; i++) {
+        var x1 = parseInt(bbox.data[i * bbox_size]),
+            y1 = parseInt(bbox.data[i * bbox_size + 1]),
+            x2 = parseInt(bbox.data[i * bbox_size + 2]),
+            y2 = parseInt(bbox.data[i * bbox_size + 3]),
+            width = Math.abs(x2 - x1),
+            height = Math.abs(y2 - y1);
+
+            const canvas = document.getElementById('live-canvas');
+            const canvasCtx = canvas.getContext('2d');
+
+            canvasCtx.strokeStyle = "red";
+            canvasCtx.rect(x1*2, y1*2, width*2, height*2);
+            canvasCtx.stroke()
+      }
+    },
+
+    async detect_passive_detection() {
       this.button_status = true
       await this.take_photo()
       const detection_output = await faceapi.detect_photo(this.detect_session, 'live-canvas')
@@ -210,7 +244,7 @@
       this.button_status = false
     },
 
-      async detect_active_detection() {
+    async detect_active_detection() {
       this.button_status = true;
       this.active_count = 0;
       for (let i = 0; i < this.max_questions; i++) {
@@ -229,18 +263,18 @@
 
           // pseudo code
           await axios.post(
-                "http://127.0.0.1:8000/face/active/liveness/result",
-                {
-                  "image": this.image,
-                  "question": this.questions[idx],
-                  "blink_count": this.continuous_blink_count,
-                  "total_count": this.total_blink_count
-                }
-            ).then((response) => {
-                console.log('The api works.');
-            }).catch((error) => {
-                //console.warn('The error occurs.');
-            })
+            "http://127.0.0.1:8000/face/active/liveness/result",
+            {
+              "image": this.image,
+              "question": this.questions[idx],
+              "blink_count": this.continuous_blink_count,
+              "total_count": this.total_blink_count
+            }
+          ).then((response) => {
+            console.log('The api works.');
+          }).catch((error) => {
+            //console.warn('The error occurs.');
+          })
 
           const detection_output = await faceapi.detect_photo(this.detect_session, 'live-canvas');
           const end_time = performance.now();
@@ -313,35 +347,44 @@
       this.button_status = false;
     },
 
-      async enroll_face() {
+    async enroll_face() {
       this.button_status = true;
       if (this.user_email === null)
-          return
+        return
 
       await this.take_photo();
       const response = await axios.post(
-          "http://127.0.0.1:8000/face/enroll/feature",
-          {
-            "image": this.image,
-            "user_email": this.user_email
-          }
+        "http://127.0.0.1:8000/face/enroll/feature",
+        {
+          "image": this.image,
+          "user_email": this.user_email
+        }
       )
 
       if (response.data["isEnrolled"] === true) {
-        this.$notify({group: "success", title: "Face Enrollment Result", text: "The input face has been enrolled successfully."}, 2000);
+        this.$notify({
+          group: "success",
+          title: "Face Enrollment Result",
+          text: "The input face has been enrolled successfully."
+        }, 2000);
       } else {
-        this.$notify({group: "error", title: "Face Enrollment Result", text: "The input face has been enrolled successfully."}, 2000);
+        this.$notify({
+          group: "error",
+          title: "Face Enrollment Result",
+          text: "The input face has been enrolled successfully."
+        }, 2000);
       }
       this.button_status = false;
     },
 
-      async exit () {
+    async exit() {
       this.close_camera()
       await this.$router.push("/")
     },
 
-      async load_models() {
-      await faceSDK.loadDetectionModel();
+    async load_models() {
+      await faceSDK.load_opencv();
+      this.detect_session = await faceSDK.loadDetectionModel();
       await faceSDK.loadExpressionModel();
       await faceSDK.loadEyeModel();
       await faceSDK.loadLandmarkModel();
@@ -351,11 +394,11 @@
   },
 
   mounted() {
-      this.load_models();
-      this.take_photo();
-      // console.log(">>>>>>>>>: ", add(1, 2));
+    this.load_models();
+    this.take_photo();
+    // console.log(">>>>>>>>>: ", add(1, 2));
   },
 
-  }
+}
 </script>
 
