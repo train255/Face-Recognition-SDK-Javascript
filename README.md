@@ -5,14 +5,25 @@
 <a target="_blank" href="https://join.slack.com/t/prenes/shared_invite/zt-1cx925fip-vL4nKJN64XBMbx8vdwHP7Q"><img src="https://img.shields.io/badge/slack-prenes-green.svg?logo=slack " alt="www.prenes.org"></a>
 
 This is a javascript package for face recognition components.
-It includes face detection, face anti-spoofing detection, landmark extraction, eye closeness detection and expression recognition.
 
 ## How it works
 
-### browser
+## Installation
+Please refer to this example
+- Vue3
 
-`<script src="/dist/facerecognition-sdk.js"></script>`
+```
+cd example/vue
+npm install face-recognition-plugin
+node post-install.js
+npm run dev
+```
+## Documentation
 
-### node
+Here are some useful documentation:
+- Face Detection
+- Face Landmark Extraction
+- Face Expression Detection
+- Face Pose Estimation  
+- Eye Closeness Detection
 
-`npm install facerecognition-sdk.js`
