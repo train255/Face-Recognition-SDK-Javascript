@@ -22,6 +22,7 @@ npm run dev
 
 Here are some useful documentation:
 - Face Detection
+![faceDetection](https://user-images.githubusercontent.com/82228271/184208025-a94bb9d5-4f52-4c56-b0e4-ff4224a30225.png)
 - Face Landmark Extraction
 - Face Expression Detection
 - Face Pose Estimation  
