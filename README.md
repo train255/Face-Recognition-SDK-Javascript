@@ -22,8 +22,13 @@ npm run dev
 
 Here are some useful documentation:
 - Face Detection
-![faceDetection](https://user-images.githubusercontent.com/82228271/184208025-a94bb9d5-4f52-4c56-b0e4-ff4224a30225.png)
+
+![fd_result](https://user-images.githubusercontent.com/82228271/184420486-8284f6d2-10fa-47fd-a625-cf15956d32d4.png)
+
+
 - Face Landmark Extraction
+![fl_result](https://user-images.githubusercontent.com/82228271/184420510-a7b71a90-0fcc-4534-9bcc-15e3af2e9fce.png)
+
 - Face Expression Detection
 - Face Pose Estimation  
 - Eye Closeness Detection
