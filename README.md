@@ -21,15 +21,32 @@ npm run dev
 ## Documentation
 
 Here are some useful documentation:
-- Face Detection
+### Face Detection
+Load detection model
+```
+loadDetectionModel()
+```
+Detect face in the image
+```
+detectFace(session, canvas_id)
+```
 
 ![fd_result](https://user-images.githubusercontent.com/82228271/184420486-8284f6d2-10fa-47fd-a625-cf15956d32d4.png)
 
 
-- Face Landmark Extraction
+### Face Landmark Extraction
+Load landmark extraction model
+```
+loadLandmarkModel()
+```
+Extract face landmark in the image using detection result
+```
+predictLandmark(session, canvas_id, bbox)
+```
+
 ![fl_result](https://user-images.githubusercontent.com/82228271/184420510-a7b71a90-0fcc-4534-9bcc-15e3af2e9fce.png)
 
-- Face Expression Detection
-- Face Pose Estimation  
-- Eye Closeness Detection
+### Face Expression Detection
+### Face Pose Estimation  
+### Eye Closeness Detection
 
