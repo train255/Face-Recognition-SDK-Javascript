@@ -7,7 +7,7 @@
               class="px-6 py-2 font-semibold text-white bg-gray-800 rounded-md hover:opacity-95 focus:outline-none"
               aria-expanded="false">Detect Face
       </button>
-      <button @click="" type="button"
+      <button @click="extractLandmark" type="button"
               class="px-6 py-2 font-semibold text-white bg-gray-800 rounded-md hover:opacity-95 focus:outline-none"
               aria-expanded="false">Extract Landmark
       </button>
@@ -165,7 +165,7 @@ export default {
       //drawing of the test image - img1
       img1.onload = function () {
         //draw background image
-        canvasCtx.drawImage(img1, 0, 0);
+        canvasCtx.drawImage(img1, 0, 0, 640, 480);
         //draw a box over the top
         // canvasCtx.fillStyle = "rgba(200, 0, 0, 0.5)";
         // canvasCtx.fillRect(0, 0, 500, 500);
@@ -205,8 +205,27 @@ export default {
             const canvasCtx = canvas.getContext('2d');
 
             canvasCtx.strokeStyle = "red";
-            canvasCtx.rect(x1*2, y1*2, width*2, height*2);
+            canvasCtx.rect(x1, y1, width, height);
             canvasCtx.stroke()
+      }
+    },
+
+    async extractLandmark() {
+      const detection_output = await faceSDK.detectFace(this.detect_session, 'live-canvas');
+      const points = await faceSDK.predictLandmark(this.landmark_session, 'live-canvas', detection_output.bbox);
+
+      for (let i = 0; i < points.length; i++) {
+        for (let j = 0; j < 68; j++) {
+         var x1 = points[i][j * 2],
+              y1 = points[i][j * 2 + 1];
+
+            const canvas = document.getElementById('live-canvas');
+            const canvasCtx = canvas.getContext('2d');
+            canvasCtx.moveTo(x1 + 2, y1);
+            canvasCtx.arc(x1, y1, 2, 0, 2 * Math.PI);
+            canvasCtx.strokeStyle = "red";
+            canvasCtx.stroke()
+        }
       }
     },
 
@@ -387,7 +406,7 @@ export default {
       this.detect_session = await faceSDK.loadDetectionModel();
       await faceSDK.loadExpressionModel();
       await faceSDK.loadEyeModel();
-      await faceSDK.loadLandmarkModel();
+      this.landmark_session = await faceSDK.loadLandmarkModel();
       await faceSDK.loadLivenessModel();
       await faceSDK.loadPoseModel();
     },

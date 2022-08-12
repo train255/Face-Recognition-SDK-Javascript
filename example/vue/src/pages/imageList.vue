@@ -36,12 +36,12 @@
         <button
           @click='selectImage1'
           class="block px-6 py-2 font-semibold text-white bg-gray-800 hover:opacity-95 focus:outline-none">
-          1.jpg
+          fr_detection.jpg
         </button>
         <button
           @click='selectImage2'
           class="block px-6 py-2 font-semibold text-white bg-gray-800 hover:opacity-95 focus:outline-none">
-          2.jpg
+          fr_landmark.jpg
         </button>
         <button
           @click='selectImage3'
@@ -62,10 +62,10 @@ export default {
   name: "imageList",
   methods: {
     selectImage1() {
-      this.$emit('changeI', '1.jpg');
+      this.$emit('changeI', 'fr_detection.jpg');
     },
     selectImage2() {
-      this.$emit('changeI', '2.jpg');
+      this.$emit('changeI', 'fr_landmark.jpg');
     },
     selectImage3() {
       this.$emit('changeI', '3.jpg');
