@@ -60,6 +60,8 @@ Detect face liveness in the image using detection result. (Anti-spoofing)
 predictLiveness(session, canvas_id, bbox)
 ```
 
+![fa_result](https://user-images.githubusercontent.com/82228271/184953255-9cb7b3d2-864c-4a15-a1f1-3e0dea8b6792.png)
+
 ### Face Expression Detection
 Load expression detection model
 ```
