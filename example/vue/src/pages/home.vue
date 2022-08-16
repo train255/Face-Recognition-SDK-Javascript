@@ -11,7 +11,7 @@
               class="px-6 py-2 font-semibold text-white bg-gray-800 rounded-md hover:opacity-95 focus:outline-none"
               aria-expanded="false">Extract Landmark
       </button>
-      <button @click="" type="button"
+      <button @click="detectLivenessDetection" type="button"
               class="px-6 py-2 font-semibold text-white bg-gray-800 rounded-md hover:opacity-95 focus:outline-none"
               aria-expanded="false">Detect Liveness
       </button>
@@ -229,38 +229,30 @@ export default {
       }
     },
 
-    async detect_passive_detection() {
-      this.button_status = true
-      await this.take_photo()
-      const detection_output = await faceapi.detect_photo(this.detect_session, 'live-canvas')
-      /*
-      var bbox = detection_output.bbox;
-      var face_count = bbox.shape[0],
-      bbox_size = bbox.shape[1];
+    async detectLivenessDetection() {
+      const detectionResult = await faceSDK.detectFace(this.detect_session, 'live-canvas');
+      const liveResult = await faceSDK.predictLiveness(this.live_session, 'live-canvas', detectionResult.bbox);
+
+      var face_count = liveResult.length;
 
       for (let i = 0; i < face_count; i++) {
-        var x1 = parseInt(bbox.data[i * bbox_size]),
-            y1 = parseInt(bbox.data[i * bbox_size + 1]),
-            x2 = parseInt(bbox.data[i * bbox_size + 2]),
-            y2 = parseInt(bbox.data[i * bbox_size + 3]),
+        var x1 = parseInt(liveResult[i][0]),
+            y1 = parseInt(liveResult[i][1]),
+            x2 = parseInt(liveResult[i][2]),
+            y2 = parseInt(liveResult[i][3]),
+            result = liveResult[i][4] < 0.3 ? "Fake" : "Live",
             width = Math.abs(x2 - x1),
             height = Math.abs(y2 - y1);
 
-            const canvas = document.getElementById('live-canvas');
-            const canvasCtx = canvas.getContext('2d');
+        const canvas = document.getElementById('live-canvas');
+        const canvasCtx = canvas.getContext('2d');
 
-            canvasCtx.strokeStyle = "red"
-            canvasCtx.rect(x1, y1, width, height)
-            canvasCtx.stroke()
-      }*/
-
-      const result = await faceapi.predict_liveness(this.live_session, 'live-canvas', detection_output.bbox)
-      if (result === true) {
-        this.$notify({group: "fr-success", title: "Passive Liveness Result", text: "The input image is live."}, 3000)
-      } else {
-        this.$notify({group: "fr-error", title: "Passive Liveness Result", text: "The input image is fake."}, 3000)
+        canvasCtx.strokeStyle = "red";
+        canvasCtx.fillStyle = "blue";
+        canvasCtx.rect(x1, y1, width, height);
+        canvasCtx.fillText(result, x1, y1-10);
+        canvasCtx.stroke();
       }
-      this.button_status = false
     },
 
     async detect_active_detection() {
@@ -407,7 +399,7 @@ export default {
       await faceSDK.loadExpressionModel();
       await faceSDK.loadEyeModel();
       this.landmark_session = await faceSDK.loadLandmarkModel();
-      await faceSDK.loadLivenessModel();
+      this.live_session = await faceSDK.loadLivenessModel();
       await faceSDK.loadPoseModel();
     },
   },

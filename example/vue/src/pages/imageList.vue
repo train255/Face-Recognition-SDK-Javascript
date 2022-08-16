@@ -46,7 +46,7 @@
         <button
           @click='selectImage3'
           class="block px-6 py-2 font-semibold text-white bg-gray-800 hover:opacity-95 focus:outline-none">
-          3.jpg
+          fr_liveness.png
         </button>
       </div>
     </div>
@@ -68,7 +68,7 @@ export default {
       this.$emit('changeI', 'fr_landmark.jpg');
     },
     selectImage3() {
-      this.$emit('changeI', '3.jpg');
+      this.$emit('changeI', 'fr_liveness.png');
     }
   }
 }
