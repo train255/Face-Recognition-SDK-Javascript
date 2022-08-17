@@ -82,6 +82,9 @@ Predict facial pose
 predictPose(session, canvas_id, bbox, question)
 ```
 
+![fp_result](https://user-images.githubusercontent.com/82228271/185186671-d288caac-a0a4-4644-a2ea-63386ba0aeee.png)
+
+
 ### Eye Closeness Detection
 Load eye closeness model
 ```
