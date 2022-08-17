@@ -15,7 +15,7 @@
               class="px-6 py-2 font-semibold text-white bg-gray-800 rounded-md hover:opacity-95 focus:outline-none"
               aria-expanded="false">Detect Liveness
       </button>
-      <button @click="" type="button"
+      <button @click="predictFacePose" type="button"
               class="px-6 py-2 font-semibold text-white bg-gray-800 rounded-md hover:opacity-95 focus:outline-none"
               aria-expanded="false">Estimate Face Pose
       </button>
@@ -29,11 +29,7 @@
 </template>
 <script>
 import imageList from "./imageList.vue";
-import * as faceapi from "../lib/face";
 import * as faceSDK from "face-recognition-plugin";
-//import {Tensor} from "onnxruntime-web";
-import axios from "axios"
-import {predict_eye, predict_pose} from "../lib/face";
 
 export default {
   data() {
@@ -255,6 +251,33 @@ export default {
       }
     },
 
+    async predictFacePose() {
+      const detectionResult = await faceSDK.detectFace(this.detect_session, 'live-canvas');
+      const poseResult = await faceSDK.predictPose(this.pose_session, 'live-canvas', detectionResult.bbox);
+
+      var face_count = poseResult.length;
+
+      for (let i = 0; i < face_count; i++) {
+        var x1 = parseInt(poseResult[i][0]),
+            y1 = parseInt(poseResult[i][1]),
+            x2 = parseInt(poseResult[i][2]),
+            y2 = parseInt(poseResult[i][3]),
+
+            width = Math.abs(x2 - x1),
+            height = Math.abs(y2 - y1);
+
+        const canvas = document.getElementById('live-canvas');
+        const canvasCtx = canvas.getContext('2d');
+
+        canvasCtx.strokeStyle = "red";
+        canvasCtx.fillStyle = "blue";
+        canvasCtx.rect(x1, y1, width, height);
+        canvasCtx.fillText("Yaw: " + poseResult[i][4] + " Pitch: " + poseResult[i][5] + " Roll: " + poseResult[i][6],
+          x1, y1-10);
+        canvasCtx.stroke();
+      }
+    },
+
     async detect_active_detection() {
       this.button_status = true;
       this.active_count = 0;
@@ -388,19 +411,14 @@ export default {
       this.button_status = false;
     },
 
-    async exit() {
-      this.close_camera()
-      await this.$router.push("/")
-    },
-
     async load_models() {
       await faceSDK.load_opencv();
       this.detect_session = await faceSDK.loadDetectionModel();
-      await faceSDK.loadExpressionModel();
-      await faceSDK.loadEyeModel();
+      this.expression_session = await faceSDK.loadExpressionModel();
+      this.eye_session = await faceSDK.loadEyeModel();
       this.landmark_session = await faceSDK.loadLandmarkModel();
       this.live_session = await faceSDK.loadLivenessModel();
-      await faceSDK.loadPoseModel();
+      this.pose_session = await faceSDK.loadPoseModel();
     },
   },
 

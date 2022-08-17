@@ -48,6 +48,11 @@
           class="block px-6 py-2 font-semibold text-white bg-gray-800 hover:opacity-95 focus:outline-none">
           fr_liveness.png
         </button>
+        <button
+          @click='selectImage4'
+          class="block px-6 py-2 font-semibold text-white bg-gray-800 hover:opacity-95 focus:outline-none">
+          fr_pose.jpg
+        </button>
       </div>
     </div>
   </div>
@@ -69,7 +74,11 @@ export default {
     },
     selectImage3() {
       this.$emit('changeI', 'fr_liveness.png');
+    },
+    selectImage4() {
+      this.$emit('changeI', 'fr_pose.jpg');
     }
+
   }
 }
 </script>
