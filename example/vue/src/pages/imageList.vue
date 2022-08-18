@@ -53,6 +53,11 @@
           class="block px-6 py-2 font-semibold text-white bg-gray-800 hover:opacity-95 focus:outline-none">
           fr_pose.jpg
         </button>
+        <button
+          @click='selectImage5'
+          class="block px-6 py-2 font-semibold text-white bg-gray-800 hover:opacity-95 focus:outline-none">
+          fr_expression.jpg
+        </button>
       </div>
     </div>
   </div>
@@ -77,8 +82,10 @@ export default {
     },
     selectImage4() {
       this.$emit('changeI', 'fr_pose.jpg');
+    },
+    selectImage5() {
+      this.$emit('changeI', 'fr_expression.jpg');
     }
-
   }
 }
 </script>
