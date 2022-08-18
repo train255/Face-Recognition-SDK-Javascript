@@ -37,7 +37,6 @@ detectFace(session, canvas_id)
 
 ![fd_result](https://user-images.githubusercontent.com/82228271/184420486-8284f6d2-10fa-47fd-a625-cf15956d32d4.png)
 
-
 ### Face Landmark Extraction
 Load landmark extraction model
 ```
@@ -72,6 +71,8 @@ Detect face expression
 predictExpression(session, canvas_id, bbox)
 ```
 
+![fe_result](https://user-images.githubusercontent.com/82228271/185451067-92dc54e6-bce6-40aa-96dc-bfd16d799104.png)
+
 ### Face Pose Estimation
 Load pose estimation model
 ```
@@ -84,11 +85,10 @@ predictPose(session, canvas_id, bbox, question)
 
 ![fp_result](https://user-images.githubusercontent.com/82228271/185186671-d288caac-a0a4-4644-a2ea-63386ba0aeee.png)
 
-
 ### Eye Closeness Detection
 Load eye closeness model
 ```
-loadPoseModel()
+loadEyeModel()
 ```
 Predict eye closeness
 ```
