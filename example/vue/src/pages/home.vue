@@ -23,6 +23,10 @@
               class="px-6 py-2 font-semibold text-white bg-gray-800 rounded-md hover:opacity-95 focus:outline-none"
               aria-expanded="false">Estimate Face Expression
       </button>
+      <button @click="predictEyeCloseness" type="button"
+              class="px-6 py-2 font-semibold text-white bg-gray-800 rounded-md hover:opacity-95 focus:outline-none"
+              aria-expanded="false">Estimate Eye Closeness
+      </button>
     </div>
 
   </div>
@@ -180,11 +184,11 @@ export default {
     },
 
     async detectFace() {
-      const detection_output = await faceSDK.detectFace(this.detect_session, 'live-canvas');
+      const detectionResult = await faceSDK.detectFace(this.detect_session, 'live-canvas');
 
-      var bbox = detection_output.bbox;
+      var bbox = detectionResult.bbox;
       var face_count = bbox.shape[0],
-      bbox_size = bbox.shape[1];
+          bbox_size = bbox.shape[1];
 
       for (let i = 0; i < face_count; i++) {
         var x1 = parseInt(bbox.data[i * bbox_size]),
@@ -204,8 +208,8 @@ export default {
     },
 
     async extractLandmark() {
-      const detection_output = await faceSDK.detectFace(this.detect_session, 'live-canvas');
-      const points = await faceSDK.predictLandmark(this.landmark_session, 'live-canvas', detection_output.bbox);
+      const detectionResult = await faceSDK.detectFace(this.detect_session, 'live-canvas');
+      const points = await faceSDK.predictLandmark(this.landmark_session, 'live-canvas', detectionResult.bbox);
 
       for (let i = 0; i < points.length; i++) {
         for (let j = 0; j < 68; j++) {
@@ -301,6 +305,37 @@ export default {
       }
     },
 
+    async predictEyeCloseness() {
+      const detectionResult = await faceSDK.detectFace(this.detect_session, 'live-canvas');
+      const points = await faceSDK.predictLandmark(this.landmark_session, 'live-canvas', detectionResult.bbox);
+      const eyeResult = await faceSDK.predictEye(this.eye_session, 'live-canvas', points);
+
+      var bbox = detectionResult.bbox;
+      var face_count = bbox.shape[0],
+          bbox_size = bbox.shape[1];
+
+      for (let i = 0; i < face_count; i++) {
+        var x1 = parseInt(bbox.data[i * bbox_size]),
+            y1 = parseInt(bbox.data[i * bbox_size + 1]),
+            x2 = parseInt(bbox.data[i * bbox_size + 2]),
+            y2 = parseInt(bbox.data[i * bbox_size + 3]),
+            width = Math.abs(x2 - x1),
+            height = Math.abs(y2 - y1);
+
+        const leftEye = eyeResult[i][0] ? "Close" : "Open";
+        const rightEye = eyeResult[i][1] ? "Close" : "Open";
+
+        const canvas = document.getElementById('live-canvas');
+        const canvasCtx = canvas.getContext('2d');
+
+        canvasCtx.strokeStyle = "red";
+        canvasCtx.fillStyle = "blue";
+        canvasCtx.rect(x1, y1, width, height);
+        canvasCtx.fillText("Left Eye: " + leftEye + " Right Eye: " + rightEye, x1, y1-10);
+        canvasCtx.stroke();
+      }
+    },
+
     async detect_active_detection() {
       this.button_status = true;
       this.active_count = 0;
@@ -333,21 +368,21 @@ export default {
             //console.warn('The error occurs.');
           })
 
-          const detection_output = await faceapi.detect_photo(this.detect_session, 'live-canvas');
+          const detectionResult = await faceapi.detect_photo(this.detect_session, 'live-canvas');
           const end_time = performance.now();
 
-          // console.log("[detect_active_detection] process time: ", end_time - start_time, detection_output.bbox);
-          const points = await faceapi.predict_landmark(this.landmark_session, 'live-canvas', detection_output.bbox);
+          // console.log("[detect_active_detection] process time: ", end_time - start_time, detectionResult.bbox);
+          const points = await faceapi.predict_landmark(this.landmark_session, 'live-canvas', detectionResult.bbox);
           const pose_questions = ["turn face right", "turn face left", "turn face up", "turn face down"];
           var pose_result = null;
 
           if (pose_questions.includes(this.questions[idx]))
-            pose_result = await faceapi.predict_pose(this.pose_session, 'live-canvas', detection_output.bbox, this.questions[idx]);
+            pose_result = await faceapi.predict_pose(this.pose_session, 'live-canvas', detectionResult.bbox, this.questions[idx]);
 
           const expression_questions = ["smile", "surprise", "angry"]
           var expression_result = null;
           if (expression_questions.includes(this.questions[idx]))
-            expression_result = await faceapi.predict_expression(this.expression_session, 'live-canvas', detection_output.bbox);
+            expression_result = await faceapi.predict_expression(this.expression_session, 'live-canvas', detectionResult.bbox);
 
           const eye_result = await faceapi.predict_eye(this.eye_session, 'live-canvas', points);
 
