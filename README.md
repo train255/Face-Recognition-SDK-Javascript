@@ -107,3 +107,6 @@ Extract face feature vector in 512 dimension
 extractFeature(session, canvas_id, landmarks)
 ```
 
+![ff_result](https://user-images.githubusercontent.com/82228271/185929392-7c34b1a8-117d-4ab1-b8fe-42e85ef43556.png)
+
+
