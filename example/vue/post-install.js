@@ -24,3 +24,4 @@ fs.copyFileSync(path.join(srcFolder, 'fr_expression.onnx'), path.join(destFolder
 fs.copyFileSync(path.join(srcFolder, 'fr_eye.onnx'), path.join(destFolder, 'fr_eye.onnx'));
 fs.copyFileSync(path.join(srcFolder, 'fr_landmark.onnx'), path.join(destFolder, 'fr_landmark.onnx'));
 fs.copyFileSync(path.join(srcFolder, 'fr_liveness.onnx'), path.join(destFolder, 'fr_liveness.onnx'));
+fs.copyFileSync(path.join(srcFolder, 'fr_feature.onnx'), path.join(destFolder, 'fr_feature.onnx'));

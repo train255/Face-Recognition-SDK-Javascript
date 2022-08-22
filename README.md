@@ -98,4 +98,12 @@ predictEye(session, canvas_id, landmark)
 ![fec_result](https://user-images.githubusercontent.com/82228271/185659906-adcd2240-403f-48fd-b318-924ff0de7bdf.png)
 
 ### Face Recognition
+Load feature extraction model
+```
+loadFeatureModel()
+```
+Extract face feature vector in 512 dimension
+```
+extractFeature(session, canvas_id, landmarks)
+```
 

@@ -27,6 +27,10 @@
               class="px-6 py-2 font-semibold text-white bg-gray-800 rounded-md hover:opacity-95 focus:outline-none"
               aria-expanded="false">Estimate Eye Closeness
       </button>
+      <button @click="extractFeature" type="button"
+              class="px-6 py-2 font-semibold text-white bg-gray-800 rounded-md hover:opacity-95 focus:outline-none"
+              aria-expanded="false">Extract Face feature
+      </button>
     </div>
 
   </div>
@@ -58,6 +62,7 @@ export default {
       pose_session: null, //InferenceSession,
       expression_session: null, //InferenceSession,
       eye_session: null, //InferenceSession,
+      feature_session: null, //InferenceSession,
     }
   },
   components: {
@@ -336,6 +341,34 @@ export default {
       }
     },
 
+    async extractFeature() {
+      const detectionResult = await faceSDK.detectFace(this.detect_session, 'live-canvas');
+      const points = await faceSDK.predictLandmark(this.landmark_session, 'live-canvas', detectionResult.bbox);
+      const eyeResult = await faceSDK.extractFeature(this.feature_session, 'live-canvas', points);
+
+      var bbox = detectionResult.bbox;
+      var face_count = bbox.shape[0],
+          bbox_size = bbox.shape[1];
+
+      for (let i = 0; i < face_count; i++) {
+        var x1 = parseInt(bbox.data[i * bbox_size]),
+            y1 = parseInt(bbox.data[i * bbox_size + 1]),
+            x2 = parseInt(bbox.data[i * bbox_size + 2]),
+            y2 = parseInt(bbox.data[i * bbox_size + 3]),
+            width = Math.abs(x2 - x1),
+            height = Math.abs(y2 - y1);
+
+        const canvas = document.getElementById('live-canvas');
+        const canvasCtx = canvas.getContext('2d');
+
+        canvasCtx.strokeStyle = "red";
+        canvasCtx.fillStyle = "blue";
+        canvasCtx.rect(x1, y1, width, height);
+        canvasCtx.fillText("Person " + i, x1, y1-10);
+        canvasCtx.stroke();
+      }
+    },
+
     async detect_active_detection() {
       this.button_status = true;
       this.active_count = 0;
@@ -477,6 +510,7 @@ export default {
       this.landmark_session = await faceSDK.loadLandmarkModel();
       this.live_session = await faceSDK.loadLivenessModel();
       this.pose_session = await faceSDK.loadPoseModel();
+      this.feature_session = await faceSDK.loadFeatureModel();
     },
   },
 
