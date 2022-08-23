@@ -25,3 +25,5 @@ fs.copyFileSync(path.join(srcFolder, 'fr_eye.onnx'), path.join(destFolder, 'fr_e
 fs.copyFileSync(path.join(srcFolder, 'fr_landmark.onnx'), path.join(destFolder, 'fr_landmark.onnx'));
 fs.copyFileSync(path.join(srcFolder, 'fr_liveness.onnx'), path.join(destFolder, 'fr_liveness.onnx'));
 fs.copyFileSync(path.join(srcFolder, 'fr_feature.onnx'), path.join(destFolder, 'fr_feature.onnx'));
+fs.copyFileSync(path.join(srcFolder, 'fr_age.onnx'), path.join(destFolder, 'fr_age.onnx'));
+fs.copyFileSync(path.join(srcFolder, 'fr_gender.onnx'), path.join(destFolder, 'fr_gender.onnx'));

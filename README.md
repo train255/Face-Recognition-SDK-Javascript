@@ -3,6 +3,7 @@
 <a target="_blank" href="https://t.me/jareddean"><img src="https://img.shields.io/badge/telegram-prenes-green.svg?logo=telegram " alt="www.prenes.org"></a>
 <a target="_blank" href="https://wa.me/+14422295661"><img src="https://img.shields.io/badge/whatsapp-prenes-green.svg?logo=whatsapp " alt="www.prenes.org"></a>
 <a target="_blank" href="https://join.slack.com/t/prenes/shared_invite/zt-1cx925fip-vL4nKJN64XBMbx8vdwHP7Q"><img src="https://img.shields.io/badge/slack-prenes-green.svg?logo=slack " alt="www.prenes.org"></a>
+<a target="_blank" href="skype:live:.cid.4b536a6c3cc88a8c?chat"><img src="https://img.shields.io/badge/skype-prenes-green.svg?logo=skype " alt="www.prenes.org"></a>
 
 This is a javascript package for face recognition components.
 
@@ -93,6 +94,26 @@ loadEyeModel()
 Predict eye closeness
 ```
 predictEye(session, canvas_id, landmark)
+```
+
+### Gender Detection
+Load gender detection model
+```
+loadGenderModel()
+```
+Predict gender using face image
+```
+predictGender(session, canvas_id, landmark)
+```
+
+### Age Detection
+Load age detection model
+```
+loadAgeModel()
+```
+Predict age using face image
+```
+predictAge(session, canvas_id, landmark)
 ```
 
 ![fec_result](https://user-images.githubusercontent.com/82228271/185659906-adcd2240-403f-48fd-b318-924ff0de7bdf.png)
