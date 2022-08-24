@@ -27,6 +27,14 @@
               class="px-6 py-2 font-semibold text-white bg-gray-800 rounded-md hover:opacity-95 focus:outline-none"
               aria-expanded="false">Estimate Eye Closeness
       </button>
+      <button @click="predictGender" type="button"
+              class="px-6 py-2 font-semibold text-white bg-gray-800 rounded-md hover:opacity-95 focus:outline-none"
+              aria-expanded="false">Estimate Eye Closeness
+      </button>
+      <button @click="predictAge" type="button"
+              class="px-6 py-2 font-semibold text-white bg-gray-800 rounded-md hover:opacity-95 focus:outline-none"
+              aria-expanded="false">Estimate Eye Closeness
+      </button>
       <button @click="extractFeature" type="button"
               class="px-6 py-2 font-semibold text-white bg-gray-800 rounded-md hover:opacity-95 focus:outline-none"
               aria-expanded="false">Extract Face feature
@@ -62,6 +70,8 @@ export default {
       pose_session: null, //InferenceSession,
       expression_session: null, //InferenceSession,
       eye_session: null, //InferenceSession,
+      gender_session: null, //InferenceSession,
+      age_session: null, //InferenceSession,
       feature_session: null, //InferenceSession,
     }
   },
@@ -337,6 +347,58 @@ export default {
         canvasCtx.fillStyle = "blue";
         canvasCtx.rect(x1, y1, width, height);
         canvasCtx.fillText("Left Eye: " + leftEye + " Right Eye: " + rightEye, x1, y1-10);
+        canvasCtx.stroke();
+      }
+    },
+
+    async predictGender() {
+      const detectionResult = await faceSDK.detectFace(this.detect_session, 'live-canvas');
+      const genderResult = await faceSDK.predictGender(this.live_session, 'live-canvas', detectionResult.bbox);
+
+      var face_count = genderResult.length;
+
+      for (let i = 0; i < face_count; i++) {
+        var x1 = parseInt(genderResult[i][0]),
+            y1 = parseInt(genderResult[i][1]),
+            x2 = parseInt(genderResult[i][2]),
+            y2 = parseInt(genderResult[i][3]),
+            result = genderResult[i][4],
+            width = Math.abs(x2 - x1),
+            height = Math.abs(y2 - y1);
+
+        const canvas = document.getElementById('live-canvas');
+        const canvasCtx = canvas.getContext('2d');
+
+        canvasCtx.strokeStyle = "red";
+        canvasCtx.fillStyle = "blue";
+        canvasCtx.rect(x1, y1, width, height);
+        canvasCtx.fillText(result, x1, y1-10);
+        canvasCtx.stroke();
+      }
+    },
+
+    async predictAge() {
+      const detectionResult = await faceSDK.detectFace(this.detect_session, 'live-canvas');
+      const ageResult = await faceSDK.predictAge(this.age_session, 'live-canvas', detectionResult.bbox);
+
+      var face_count = ageResult.length;
+
+      for (let i = 0; i < face_count; i++) {
+        var x1 = parseInt(ageResult[i][0]),
+            y1 = parseInt(ageResult[i][1]),
+            x2 = parseInt(ageResult[i][2]),
+            y2 = parseInt(ageResult[i][3]),
+            result = ageResult[i][4],
+            width = Math.abs(x2 - x1),
+            height = Math.abs(y2 - y1);
+
+        const canvas = document.getElementById('live-canvas');
+        const canvasCtx = canvas.getContext('2d');
+
+        canvasCtx.strokeStyle = "red";
+        canvasCtx.fillStyle = "blue";
+        canvasCtx.rect(x1, y1, width, height);
+        canvasCtx.fillText(result, x1, y1-10);
         canvasCtx.stroke();
       }
     },

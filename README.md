@@ -96,6 +96,8 @@ Predict eye closeness
 predictEye(session, canvas_id, landmark)
 ```
 
+![fec_result](https://user-images.githubusercontent.com/82228271/185659906-adcd2240-403f-48fd-b318-924ff0de7bdf.png)
+
 ### Gender Detection
 Load gender detection model
 ```
@@ -115,8 +117,6 @@ Predict age using face image
 ```
 predictAge(session, canvas_id, landmark)
 ```
-
-![fec_result](https://user-images.githubusercontent.com/82228271/185659906-adcd2240-403f-48fd-b318-924ff0de7bdf.png)
 
 ### Face Recognition
 Load feature extraction model
