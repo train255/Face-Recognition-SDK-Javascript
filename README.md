@@ -108,6 +108,8 @@ Predict gender using face image
 predictGender(session, canvas_id, landmark)
 ```
 
+![fg_result](https://user-images.githubusercontent.com/82228271/186672428-77403633-faf9-45e3-abe5-802e7ca8abb5.png)
+
 ### Age Detection
 Load age detection model
 ```
@@ -117,6 +119,8 @@ Predict age using face image
 ```
 predictAge(session, canvas_id, landmark)
 ```
+
+![fage_result](https://user-images.githubusercontent.com/82228271/186672522-d36b76c9-c882-4321-b761-0370086ad42c.png)
 
 ### Face Recognition
 Load feature extraction model
