@@ -29,11 +29,11 @@
       </button>
       <button @click="predictGender" type="button"
               class="px-6 py-2 font-semibold text-white bg-gray-800 rounded-md hover:opacity-95 focus:outline-none"
-              aria-expanded="false">Estimate Eye Closeness
+              aria-expanded="false">Estimate Gender
       </button>
       <button @click="predictAge" type="button"
               class="px-6 py-2 font-semibold text-white bg-gray-800 rounded-md hover:opacity-95 focus:outline-none"
-              aria-expanded="false">Estimate Eye Closeness
+              aria-expanded="false">Estimate Age
       </button>
       <button @click="extractFeature" type="button"
               class="px-6 py-2 font-semibold text-white bg-gray-800 rounded-md hover:opacity-95 focus:outline-none"
@@ -191,6 +191,8 @@ export default {
     selectImage(imageFile) {
       const canvas = document.getElementById('live-canvas');
       const canvasCtx = canvas.getContext('2d');
+      canvasCtx.clearRect(0, 0, 640, 480);
+
       const img1 = new Image();
       img1.onload = function () {
         canvasCtx.drawImage(img1, 0, 0, 640, 480);
@@ -205,6 +207,9 @@ export default {
       var face_count = bbox.shape[0],
           bbox_size = bbox.shape[1];
 
+      const canvas = document.getElementById('live-canvas');
+      const canvasCtx = canvas.getContext('2d');
+
       for (let i = 0; i < face_count; i++) {
         var x1 = parseInt(bbox.data[i * bbox_size]),
             y1 = parseInt(bbox.data[i * bbox_size + 1]),
@@ -213,11 +218,8 @@ export default {
             width = Math.abs(x2 - x1),
             height = Math.abs(y2 - y1);
 
-            const canvas = document.getElementById('live-canvas');
-            const canvasCtx = canvas.getContext('2d');
-
             canvasCtx.strokeStyle = "red";
-            canvasCtx.rect(x1, y1, width, height);
+            canvasCtx.strokeRect(x1, y1, width, height);
             canvasCtx.stroke()
       }
     },
@@ -226,13 +228,16 @@ export default {
       const detectionResult = await faceSDK.detectFace(this.detect_session, 'live-canvas');
       const points = await faceSDK.predictLandmark(this.landmark_session, 'live-canvas', detectionResult.bbox);
 
+      const canvas = document.getElementById('live-canvas');
+      const canvasCtx = canvas.getContext('2d');
+      canvasCtx.beginPath();
+
       for (let i = 0; i < points.length; i++) {
         for (let j = 0; j < 68; j++) {
          var x1 = points[i][j * 2],
-              y1 = points[i][j * 2 + 1];
+            y1 = points[i][j * 2 + 1];
 
-            const canvas = document.getElementById('live-canvas');
-            const canvasCtx = canvas.getContext('2d');
+
             canvasCtx.moveTo(x1 + 2, y1);
             canvasCtx.arc(x1, y1, 2, 0, 2 * Math.PI);
             canvasCtx.strokeStyle = "red";
@@ -261,7 +266,7 @@ export default {
 
         canvasCtx.strokeStyle = "red";
         canvasCtx.fillStyle = "blue";
-        canvasCtx.rect(x1, y1, width, height);
+        canvasCtx.strokeRect(x1, y1, width, height);
         canvasCtx.fillText(result, x1, y1-10);
         canvasCtx.stroke();
       }
@@ -287,7 +292,7 @@ export default {
 
         canvasCtx.strokeStyle = "red";
         canvasCtx.fillStyle = "blue";
-        canvasCtx.rect(x1, y1, width, height);
+        canvasCtx.strokeRect(x1, y1, width, height);
         canvasCtx.fillText("Yaw: " + this.emotions[expressionResult[i][4]], x1, y1-10);
         canvasCtx.stroke();
       }
@@ -313,7 +318,7 @@ export default {
 
         canvasCtx.strokeStyle = "red";
         canvasCtx.fillStyle = "blue";
-        canvasCtx.rect(x1, y1, width, height);
+        canvasCtx.strokeRect(x1, y1, width, height);
         canvasCtx.fillText("Yaw: " + poseResult[i][4] + " Pitch: " + poseResult[i][5] + " Roll: " + poseResult[i][6],
           x1, y1-10);
         canvasCtx.stroke();
@@ -345,7 +350,7 @@ export default {
 
         canvasCtx.strokeStyle = "red";
         canvasCtx.fillStyle = "blue";
-        canvasCtx.rect(x1, y1, width, height);
+        canvasCtx.strokeRect(x1, y1, width, height);
         canvasCtx.fillText("Left Eye: " + leftEye + " Right Eye: " + rightEye, x1, y1-10);
         canvasCtx.stroke();
       }
@@ -353,7 +358,7 @@ export default {
 
     async predictGender() {
       const detectionResult = await faceSDK.detectFace(this.detect_session, 'live-canvas');
-      const genderResult = await faceSDK.predictGender(this.live_session, 'live-canvas', detectionResult.bbox);
+      const genderResult = await faceSDK.predictGender(this.gender_session, 'live-canvas', detectionResult.bbox);
 
       var face_count = genderResult.length;
 
@@ -371,7 +376,7 @@ export default {
 
         canvasCtx.strokeStyle = "red";
         canvasCtx.fillStyle = "blue";
-        canvasCtx.rect(x1, y1, width, height);
+        canvasCtx.strokeRect(x1, y1, width, height);
         canvasCtx.fillText(result, x1, y1-10);
         canvasCtx.stroke();
       }
@@ -397,7 +402,7 @@ export default {
 
         canvasCtx.strokeStyle = "red";
         canvasCtx.fillStyle = "blue";
-        canvasCtx.rect(x1, y1, width, height);
+        canvasCtx.strokeRect(x1, y1, width, height);
         canvasCtx.fillText(result, x1, y1-10);
         canvasCtx.stroke();
       }
@@ -425,7 +430,7 @@ export default {
 
         canvasCtx.strokeStyle = "red";
         canvasCtx.fillStyle = "blue";
-        canvasCtx.rect(x1, y1, width, height);
+        canvasCtx.strokeRect(x1, y1, width, height);
         canvasCtx.fillText("Person " + i, x1, y1-10);
         canvasCtx.stroke();
       }
@@ -572,6 +577,8 @@ export default {
       this.landmark_session = await faceSDK.loadLandmarkModel();
       this.live_session = await faceSDK.loadLivenessModel();
       this.pose_session = await faceSDK.loadPoseModel();
+      this.gender_session = await faceSDK.loadGenderModel();
+      this.age_session = await faceSDK.loadAgeModel();
       this.feature_session = await faceSDK.loadFeatureModel();
     },
   },
