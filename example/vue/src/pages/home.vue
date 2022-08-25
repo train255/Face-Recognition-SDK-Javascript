@@ -367,7 +367,7 @@ export default {
             y1 = parseInt(genderResult[i][1]),
             x2 = parseInt(genderResult[i][2]),
             y2 = parseInt(genderResult[i][3]),
-            result = genderResult[i][4],
+            result = genderResult[i][4] > 0.6 ? "Male" : "Female",
             width = Math.abs(x2 - x1),
             height = Math.abs(y2 - y1);
 
@@ -393,7 +393,7 @@ export default {
             y1 = parseInt(ageResult[i][1]),
             x2 = parseInt(ageResult[i][2]),
             y2 = parseInt(ageResult[i][3]),
-            result = ageResult[i][4],
+            result = parseInt(ageResult[i][4]),
             width = Math.abs(x2 - x1),
             height = Math.abs(y2 - y1);
 
@@ -403,7 +403,7 @@ export default {
         canvasCtx.strokeStyle = "red";
         canvasCtx.fillStyle = "blue";
         canvasCtx.strokeRect(x1, y1, width, height);
-        canvasCtx.fillText(result, x1, y1-10);
+        canvasCtx.fillText("Age: " + result, x1, y1-10);
         canvasCtx.stroke();
       }
     },
