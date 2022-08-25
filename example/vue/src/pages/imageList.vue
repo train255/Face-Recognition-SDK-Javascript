@@ -66,6 +66,16 @@
         <button
           @click='selectImage7'
           class="block px-6 py-2 font-semibold text-white bg-gray-800 hover:opacity-95 focus:outline-none">
+          fr_gender.jpg
+        </button>
+        <button
+          @click='selectImage8'
+          class="block px-6 py-2 font-semibold text-white bg-gray-800 hover:opacity-95 focus:outline-none">
+          fr_age.jpg
+        </button>
+        <button
+          @click='selectImage9'
+          class="block px-6 py-2 font-semibold text-white bg-gray-800 hover:opacity-95 focus:outline-none">
           fr_feature.jpg
         </button>
       </div>
@@ -100,6 +110,12 @@ export default {
       this.$emit('changeI', 'fr_eye.jpg');
     },
     selectImage7() {
+      this.$emit('changeI', 'fr_gender.jpg');
+    },
+    selectImage8() {
+      this.$emit('changeI', 'fr_age.jpg');
+    },
+    selectImage9() {
       this.$emit('changeI', 'fr_feature.jpg');
     }
   }
