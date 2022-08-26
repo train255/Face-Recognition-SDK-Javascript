@@ -86,82 +86,6 @@ export default {
       this.selectImage(filename);
     },
 
-    check_result(question, out_model, blinks_up) {
-      if (question === "smile") {
-        if (out_model["emotion"] === "smile") {
-          this.challenge = "pass"
-        } else {
-          this.challenge = "fail"
-        }
-      } else if (question === "surprise") {
-        if (out_model["emotion"] === "surprise") {
-          this.challenge = "pass"
-        } else {
-          this.challenge = "fail"
-        }
-      } else if (question === "angry") {
-        if (out_model["emotion"] === "angry")
-          this.challenge = "pass"
-        else
-          this.challenge = "fail"
-      } else if (question === "turn face right") {
-        if (out_model["orientation"] === "right")
-          this.challenge = "pass"
-        else
-          this.challenge = "fail"
-      } else if (question === "turn face left") {
-        if (out_model["orientation"] === "left")
-          this.challenge = "pass"
-        else
-          this.challenge = "fail"
-      } else if (question === "turn face up") {
-        if (out_model["orientation"] === "up")
-          this.challenge = "pass"
-        else
-          this.challenge = "fail"
-      } else if (question === "turn face down") {
-        if (out_model["orientation"] === "down")
-          this.challenge = "pass"
-        else
-          this.challenge = "fail"
-      } else if (question === "blink eyes") {
-        if (blinks_up === true)
-          this.challenge = "pass"
-        else
-          this.challenge = "fail"
-      } else {
-      }
-    },
-
-    close_camera() {
-      this.$store.dispatch('camera/stopCamera')
-    },
-
-    async show_photo() {
-      // const video = document.getElementById("live-video");
-      // video.addEventListener("playing", function() {
-      //   const canvas = document.getElementById('live-camera');
-      //   const canvasCtx = canvas.getContext('2d');
-      //
-      //   setTimeout(() => {
-      //       canvasCtx.drawImage(video, 0, 0, 320, 240);
-      //   }, 100)
-      //
-      //   //resolve(video);
-      // });
-
-      const video = document.getElementById('live-video')
-      const canvas = document.getElementById('live-camera')
-      const canvasCtx = canvas.getContext('2d')
-      canvasCtx.drawImage(video, 0, 0, 320, 240)
-
-      this.image = canvas.toDataURL('image/jpeg')
-      canvasCtx.strokeStyle = "red"
-      canvasCtx.rect(100, 60, 120, 120)
-      canvasCtx.stroke()
-      setTimeout(() => this.show_photo(), 33)
-    },
-
     async take_photo() {
       const canvas = document.getElementById('live-canvas');
       const canvasCtx = canvas.getContext('2d');
@@ -209,6 +133,7 @@ export default {
 
       const canvas = document.getElementById('live-canvas');
       const canvasCtx = canvas.getContext('2d');
+      canvasCtx.beginPath();
 
       for (let i = 0; i < face_count; i++) {
         var x1 = parseInt(bbox.data[i * bbox_size]),
@@ -250,6 +175,10 @@ export default {
       const detectionResult = await faceSDK.detectFace(this.detect_session, 'live-canvas');
       const liveResult = await faceSDK.predictLiveness(this.live_session, 'live-canvas', detectionResult.bbox);
 
+      const canvas = document.getElementById('live-canvas');
+      const canvasCtx = canvas.getContext('2d');
+      canvasCtx.beginPath();
+
       var face_count = liveResult.length;
 
       for (let i = 0; i < face_count; i++) {
@@ -260,9 +189,6 @@ export default {
             result = liveResult[i][4] < 0.3 ? "Fake" : "Live",
             width = Math.abs(x2 - x1),
             height = Math.abs(y2 - y1);
-
-        const canvas = document.getElementById('live-canvas');
-        const canvasCtx = canvas.getContext('2d');
 
         canvasCtx.strokeStyle = "red";
         canvasCtx.fillStyle = "blue";
@@ -276,6 +202,10 @@ export default {
       const detectionResult = await faceSDK.detectFace(this.detect_session, 'live-canvas');
       const expressionResult = await faceSDK.predictExpression(this.expression_session, 'live-canvas', detectionResult.bbox);
 
+      const canvas = document.getElementById('live-canvas');
+      const canvasCtx = canvas.getContext('2d');
+      canvasCtx.beginPath();
+
       var face_count = expressionResult.length;
 
       for (let i = 0; i < face_count; i++) {
@@ -286,9 +216,6 @@ export default {
 
             width = Math.abs(x2 - x1),
             height = Math.abs(y2 - y1);
-
-        const canvas = document.getElementById('live-canvas');
-        const canvasCtx = canvas.getContext('2d');
 
         canvasCtx.strokeStyle = "red";
         canvasCtx.fillStyle = "blue";
@@ -302,6 +229,10 @@ export default {
       const detectionResult = await faceSDK.detectFace(this.detect_session, 'live-canvas');
       const poseResult = await faceSDK.predictPose(this.pose_session, 'live-canvas', detectionResult.bbox);
 
+      const canvas = document.getElementById('live-canvas');
+      const canvasCtx = canvas.getContext('2d');
+      canvasCtx.beginPath();
+
       var face_count = poseResult.length;
 
       for (let i = 0; i < face_count; i++) {
@@ -312,9 +243,6 @@ export default {
 
             width = Math.abs(x2 - x1),
             height = Math.abs(y2 - y1);
-
-        const canvas = document.getElementById('live-canvas');
-        const canvasCtx = canvas.getContext('2d');
 
         canvasCtx.strokeStyle = "red";
         canvasCtx.fillStyle = "blue";
@@ -329,6 +257,10 @@ export default {
       const detectionResult = await faceSDK.detectFace(this.detect_session, 'live-canvas');
       const points = await faceSDK.predictLandmark(this.landmark_session, 'live-canvas', detectionResult.bbox);
       const eyeResult = await faceSDK.predictEye(this.eye_session, 'live-canvas', points);
+
+      const canvas = document.getElementById('live-canvas');
+      const canvasCtx = canvas.getContext('2d');
+      canvasCtx.beginPath();
 
       var bbox = detectionResult.bbox;
       var face_count = bbox.shape[0],
@@ -345,9 +277,6 @@ export default {
         const leftEye = eyeResult[i][0] ? "Close" : "Open";
         const rightEye = eyeResult[i][1] ? "Close" : "Open";
 
-        const canvas = document.getElementById('live-canvas');
-        const canvasCtx = canvas.getContext('2d');
-
         canvasCtx.strokeStyle = "red";
         canvasCtx.fillStyle = "blue";
         canvasCtx.strokeRect(x1, y1, width, height);
@@ -360,6 +289,10 @@ export default {
       const detectionResult = await faceSDK.detectFace(this.detect_session, 'live-canvas');
       const genderResult = await faceSDK.predictGender(this.gender_session, 'live-canvas', detectionResult.bbox);
 
+      const canvas = document.getElementById('live-canvas');
+      const canvasCtx = canvas.getContext('2d');
+      canvasCtx.beginPath();
+
       var face_count = genderResult.length;
 
       for (let i = 0; i < face_count; i++) {
@@ -370,9 +303,6 @@ export default {
             result = genderResult[i][4] > 0.6 ? "Male" : "Female",
             width = Math.abs(x2 - x1),
             height = Math.abs(y2 - y1);
-
-        const canvas = document.getElementById('live-canvas');
-        const canvasCtx = canvas.getContext('2d');
 
         canvasCtx.strokeStyle = "red";
         canvasCtx.fillStyle = "blue";
@@ -386,6 +316,10 @@ export default {
       const detectionResult = await faceSDK.detectFace(this.detect_session, 'live-canvas');
       const ageResult = await faceSDK.predictAge(this.age_session, 'live-canvas', detectionResult.bbox);
 
+      const canvas = document.getElementById('live-canvas');
+      const canvasCtx = canvas.getContext('2d');
+      canvasCtx.beginPath();
+
       var face_count = ageResult.length;
 
       for (let i = 0; i < face_count; i++) {
@@ -396,9 +330,6 @@ export default {
             result = parseInt(ageResult[i][4]),
             width = Math.abs(x2 - x1),
             height = Math.abs(y2 - y1);
-
-        const canvas = document.getElementById('live-canvas');
-        const canvasCtx = canvas.getContext('2d');
 
         canvasCtx.strokeStyle = "red";
         canvasCtx.fillStyle = "blue";
@@ -413,6 +344,10 @@ export default {
       const points = await faceSDK.predictLandmark(this.landmark_session, 'live-canvas', detectionResult.bbox);
       const eyeResult = await faceSDK.extractFeature(this.feature_session, 'live-canvas', points);
 
+      const canvas = document.getElementById('live-canvas');
+      const canvasCtx = canvas.getContext('2d');
+      canvasCtx.beginPath();
+
       var bbox = detectionResult.bbox;
       var face_count = bbox.shape[0],
           bbox_size = bbox.shape[1];
@@ -425,148 +360,12 @@ export default {
             width = Math.abs(x2 - x1),
             height = Math.abs(y2 - y1);
 
-        const canvas = document.getElementById('live-canvas');
-        const canvasCtx = canvas.getContext('2d');
-
         canvasCtx.strokeStyle = "red";
         canvasCtx.fillStyle = "blue";
         canvasCtx.strokeRect(x1, y1, width, height);
         canvasCtx.fillText("Person " + i, x1, y1-10);
         canvasCtx.stroke();
       }
-    },
-
-    async detect_active_detection() {
-      this.button_status = true;
-      this.active_count = 0;
-      for (let i = 0; i < this.max_questions; i++) {
-        const idx = Math.floor(Math.random() * 6);
-
-        if (this.start_question) {
-          this.$notify({group: "state", title: "Active Liveness State", text: this.questions[idx]}, 1000);
-        }
-
-        this.start_question = false;
-        let success = false;
-
-        for (let j = 0; j < this.try_count; j++) {
-          const start_time = performance.now();
-          this.take_photo();
-
-          // pseudo code
-          await axios.post(
-            "http://127.0.0.1:8000/face/active/liveness/result",
-            {
-              "image": this.image,
-              "question": this.questions[idx],
-              "blink_count": this.continuous_blink_count,
-              "total_count": this.total_blink_count
-            }
-          ).then((response) => {
-            console.log('The api works.');
-          }).catch((error) => {
-            //console.warn('The error occurs.');
-          })
-
-          const detectionResult = await faceapi.detect_photo(this.detect_session, 'live-canvas');
-          const end_time = performance.now();
-
-          // console.log("[detect_active_detection] process time: ", end_time - start_time, detectionResult.bbox);
-          const points = await faceapi.predict_landmark(this.landmark_session, 'live-canvas', detectionResult.bbox);
-          const pose_questions = ["turn face right", "turn face left", "turn face up", "turn face down"];
-          var pose_result = null;
-
-          if (pose_questions.includes(this.questions[idx]))
-            pose_result = await faceapi.predict_pose(this.pose_session, 'live-canvas', detectionResult.bbox, this.questions[idx]);
-
-          const expression_questions = ["smile", "surprise", "angry"]
-          var expression_result = null;
-          if (expression_questions.includes(this.questions[idx]))
-            expression_result = await faceapi.predict_expression(this.expression_session, 'live-canvas', detectionResult.bbox);
-
-          const eye_result = await faceapi.predict_eye(this.eye_session, 'live-canvas', points);
-
-          const previous_blink_count = this.total_blink_count;
-          if (eye_result)
-            this.continuous_blink_count = this.continuous_blink_count + 1
-          else {
-            if (this.continuous_blink_count >= 1)
-              this.total_blink_count = this.total_blink_count + 1
-          }
-
-          const output_status = {
-            "box_face_frontal": 3,
-            "box_orientation": 5,
-            "emotion": this.emotions[expression_result],
-            "orientation": pose_result,
-            "total_blinks": this.total_blink_count,
-            "count_continuous_blinks": this.continuous_blink_count
-          };
-
-          let blinks_up = false;
-          if (this.total_blink_count - previous_blink_count > 0)
-            blinks_up = true;
-
-          this.check_result(this.questions[idx], output_status, blinks_up);
-
-          setTimeout(() => this.start_question = true, 40);
-          if (this.challenge === "pass") {
-            success = true;
-            break;
-          }
-        }
-
-        //console.log("active status [1]: ", success, j, this.try_count)
-        if (success) {
-          this.$notify({group: "success", title: "Active Liveness Result", text: "pass"}, 1000);
-          this.active_count++;
-        } else {
-          console.log("error case: ", this.questions[idx]);
-          break;
-        }
-
-        setTimeout(() => this.start_question = true, 40);
-      }
-
-      console.log("active status [2]:  ", this.active_count, this.max_questions);
-      if (this.active_count === this.max_questions)
-        this.$notify({group: "fr-success", title: "Active Liveness Result", text: "The result is live."}, 4000);
-      else
-        this.$notify({group: "fr-error", title: "Active Liveness Result", text: "The result is fake."}, 4000);
-
-      this.continuous_blink_count = 0;
-      this.total_blink_count = 0;
-      this.button_status = false;
-    },
-
-    async enroll_face() {
-      this.button_status = true;
-      if (this.user_email === null)
-        return
-
-      await this.take_photo();
-      const response = await axios.post(
-        "http://127.0.0.1:8000/face/enroll/feature",
-        {
-          "image": this.image,
-          "user_email": this.user_email
-        }
-      )
-
-      if (response.data["isEnrolled"] === true) {
-        this.$notify({
-          group: "success",
-          title: "Face Enrollment Result",
-          text: "The input face has been enrolled successfully."
-        }, 2000);
-      } else {
-        this.$notify({
-          group: "error",
-          title: "Face Enrollment Result",
-          text: "The input face has been enrolled successfully."
-        }, 2000);
-      }
-      this.button_status = false;
     },
 
     async load_models() {
