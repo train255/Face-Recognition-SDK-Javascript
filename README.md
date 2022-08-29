@@ -1,11 +1,15 @@
 # Face-SDK-Javascript
 
+<div align="left">
 <img src="https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg" alt="Awesome Badge"/>
 <img src="https://img.shields.io/static/v1?label=%F0%9F%8C%9F&message=If%20Useful&style=style=flat&color=BC4E99" alt="Star Badge"/>
+</div>
 
 This is a javascript package for face recognition components.
 
 ## How it works
+
+https://user-images.githubusercontent.com/82228271/187199680-208c7995-21b1-48d7-8758-3977452ff955.mp4
 
 ## Installation
 ```
@@ -23,7 +27,7 @@ npm run dev
 ```
 ## Documentation
 
-Here are some useful documentation:
+Here are some useful documentation
 ### Face Detection
 Load detection model
 ```
