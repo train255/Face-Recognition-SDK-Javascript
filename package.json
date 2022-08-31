@@ -1,6 +1,6 @@
 {
-  "name": "face-recognition-plugin",
-  "version": "1.0.2",
+  "name": "@AI-Innovator/face-recognition-plugin",
+  "version": "1.0.3",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -12,7 +12,6 @@
     "url": "git+https://github.com/AI-Innovator/Face-SDK-Javascript.git"
   },
   "keywords": [],
-  "author": "",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/AI-Innovator/Face-SDK-Javascript/issues"
@@ -38,5 +37,8 @@
     "copy-webpack-plugin": "^8.1.1",
     "webpack": "^5.64.4",
     "webpack-cli": "^4.9.1"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/AI-Innovator"
   }
 }

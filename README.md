@@ -15,7 +15,7 @@ https://user-images.githubusercontent.com/82228271/187199680-208c7995-21b1-48d7-
 
 ## Installation
 ```
-npm install face-recognition-plugin
+npm install @ai-innovator/face-recognition-plugin@1.0.3
 ```
 
 ### Examples
@@ -23,7 +23,7 @@ npm install face-recognition-plugin
 
 ```
 cd example/vue
-npm install face-recognition-plugin
+npm install @ai-innovator/face-recognition-plugin@1.0.3
 node post-install.js
 npm run dev
 ```
