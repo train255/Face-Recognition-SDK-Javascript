@@ -1,4 +1,4 @@
-<img alt="face-recognition-plugin" src="https://user-images.githubusercontent.com/82228271/187691269-5049ea18-588c-4378-a439-42eaa3df54f8.png">
+<img alt="face-recognition-plugin" src="https://user-images.githubusercontent.com/82228271/187815515-20bc30b8-214f-4e5b-9b66-24192b7867bc.png">
 
 <div align="left">
 <img src="https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg" alt="Awesome Badge"/>
