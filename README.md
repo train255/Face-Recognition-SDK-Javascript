@@ -7,7 +7,6 @@
 <img src="https://img.shields.io/github/issues-pr/genderev/assassin" alt="pr"/>
 </div>
 
-This is a javascript package for face recognition components.
 
 ## How it works
 
