@@ -40,7 +40,6 @@
               aria-expanded="false">Extract Face feature
       </button>
     </div>
-
   </div>
 </template>
 <script>
@@ -71,32 +70,6 @@ export default {
     changeImage(filename) {
       this.filename = filename;
       this.selectImage(filename);
-    },
-
-    async take_photo() {
-      const canvas = document.getElementById('live-canvas');
-      const canvasCtx = canvas.getContext('2d');
-      // this.image = canvas.toDataURL('image/jpeg');
-
-      // ------- save image locally -------
-      // var img = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
-      // window.location.href=img;
-
-      // ------ load image locally ------
-      const img1 = new Image();
-
-      //drawing of the test image - img1
-      img1.onload = function () {
-        //draw background image
-        canvasCtx.drawImage(img1, 0, 0, 640, 480);
-        //draw a box over the top
-        // canvasCtx.fillStyle = "rgba(200, 0, 0, 0.5)";
-        // canvasCtx.fillRect(0, 0, 500, 500);
-
-      };
-
-      img1.src = 'empty.png';
-
     },
 
     selectImage(imageFile) {
@@ -355,7 +328,7 @@ export default {
       }
     },
 
-    async load_models() {
+    async loadModels() {
       await faceSDK.load_opencv();
       this.detectSession = await faceSDK.loadDetectionModel();
       this.expressionSession = await faceSDK.loadExpressionModel();
@@ -370,8 +343,8 @@ export default {
   },
 
   mounted() {
-    this.load_models();
-    this.take_photo();
+    this.loadModels();
+    this.selectImage('empty.png');
   },
 
 }
