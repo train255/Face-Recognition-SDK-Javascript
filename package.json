@@ -1,6 +1,6 @@
 {
-  "name": "@AI-Innovator/face-recognition-plugin",
-  "version": "1.0.3",
+  "name": "face-recognition-plugin",
+  "version": "1.0.4",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -37,8 +37,5 @@
     "copy-webpack-plugin": "^8.1.1",
     "webpack": "^5.64.4",
     "webpack-cli": "^4.9.1"
-  },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/AI-Innovator"
   }
 }
