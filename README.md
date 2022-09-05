@@ -9,7 +9,6 @@
 
 
 ## How it works
-
 https://user-images.githubusercontent.com/82228271/187199680-208c7995-21b1-48d7-8758-3977452ff955.mp4
 
 ## Installation
@@ -17,7 +16,18 @@ https://user-images.githubusercontent.com/82228271/187199680-208c7995-21b1-48d7-
 npm install face-recognition-plugin
 ```
 
-### Examples
+## Features
+* **[Face Detection](#face-detection)**
+* **[Face Landmark Extraction](#face-landmark-extraction)**
+* **[Face Liveness Detection](#face-expression-detection)**
+* **[Face Expression Detection](#face-expression-detection)**
+* **[Face Pose Estimation](#face-pose-estimation)**
+* **[Eye Closeness Detection](#eye-closeness-detection)**
+* **[Gender Detection](#gender-detection)**
+* **[Age Detection](#age-detection)**
+* **[Face Feature Embedding](#face-recognition)**
+
+## Examples
 - Vue3
 
 ```
@@ -29,6 +39,8 @@ npm run dev
 ## Documentation
 
 Here are some useful documentation
+
+<a name="face-detection"></a>
 ### Face Detection
 Load detection model
 ```
@@ -39,6 +51,7 @@ Detect face in the image
 detectFace(session, canvas_id)
 ```
 
+<a name="face-landmark-extraction"></a>
 ### Face Landmark Extraction
 Load landmark extraction model
 ```
@@ -49,6 +62,7 @@ Extract face landmark in the image using detection result
 predictLandmark(session, canvas_id, bbox)
 ```
 
+<a name="face-liveness-detection"></a>
 ### Face Liveness Detection
 Load liveness detection model
 ```
@@ -59,6 +73,7 @@ Detect face liveness in the image using detection result. (Anti-spoofing)
 predictLiveness(session, canvas_id, bbox)
 ```
 
+<a name="face-expression-detection"></a>
 ### Face Expression Detection
 Load expression detection model
 ```
@@ -69,6 +84,7 @@ Detect face expression
 predictExpression(session, canvas_id, bbox)
 ```
 
+<a name="face-pose-estimation"></a>
 ### Face Pose Estimation
 Load pose estimation model
 ```
@@ -79,6 +95,7 @@ Predict facial pose
 predictPose(session, canvas_id, bbox, question)
 ```
 
+<a name="eye-closeness-detection"></a>
 ### Eye Closeness Detection
 Load eye closeness model
 ```
@@ -89,6 +106,7 @@ Predict eye closeness
 predictEye(session, canvas_id, landmark)
 ```
 
+<a name="gender-detection"></a>
 ### Gender Detection
 Load gender detection model
 ```
@@ -99,6 +117,7 @@ Predict gender using face image
 predictGender(session, canvas_id, landmark)
 ```
 
+<a name="age-detection"></a>
 ### Age Detection
 Load age detection model
 ```
@@ -109,6 +128,7 @@ Predict age using face image
 predictAge(session, canvas_id, landmark)
 ```
 
+<a name="face-recognition"></a>
 ### Face Recognition
 Load feature extraction model
 ```
