@@ -6,7 +6,7 @@
         @click="show = !show"
         class="flex items-center px-6 py-2 font-semibold text-white bg-gray-800 hover:opacity-95 focus:outline-none"
       >
-        <span class="mr-4">Select image</span>
+        <span class="mr-4">Select Image</span>
         <svg
           class="w-5 h-5 text-indigo-100 dark:text-white"
           xmlns="http://www.w3.org/2000/svg"

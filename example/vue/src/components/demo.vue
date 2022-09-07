@@ -1,7 +1,15 @@
 <template>
   <div class="flex flex-row">
-    <image-list @changeI="changeImage($event)"/>
+    <div class="flex flex-col">
+      <image-list @changeI="changeImage($event)"/>
+      <button
+        @click='selectImage1'
+        class="flex items-center px-6 py-2 font-semibold text-white bg-gray-800 hover:opacity-95 focus:outline-none">
+        Select Camera
+      </button>
+    </div>
     <canvas id="live-canvas" width="640" height="480"/>
+    <video id="live-video" v-if="isCameraStarted" width="320" height="240" autoplay/>
     <div class="flex flex-col">
       <button @click="detectFace" type="button"
               class="px-6 py-2 font-semibold text-white bg-gray-800 rounded-md hover:opacity-95 focus:outline-none"
@@ -65,6 +73,10 @@ export default {
     imageList
   },
   computed: {
+    isCameraStarted() {
+      return this.$store.getters['camera/isCameraStarted']
+    }
+
   },
   methods: {
     changeImage(filename) {
@@ -89,7 +101,7 @@ export default {
 
       var bbox = detectionResult.bbox;
       var face_count = bbox.shape[0],
-          bbox_size = bbox.shape[1];
+        bbox_size = bbox.shape[1];
 
       const canvas = document.getElementById('live-canvas');
       const canvasCtx = canvas.getContext('2d');
@@ -97,15 +109,15 @@ export default {
 
       for (let i = 0; i < face_count; i++) {
         var x1 = parseInt(bbox.data[i * bbox_size]),
-            y1 = parseInt(bbox.data[i * bbox_size + 1]),
-            x2 = parseInt(bbox.data[i * bbox_size + 2]),
-            y2 = parseInt(bbox.data[i * bbox_size + 3]),
-            width = Math.abs(x2 - x1),
-            height = Math.abs(y2 - y1);
+          y1 = parseInt(bbox.data[i * bbox_size + 1]),
+          x2 = parseInt(bbox.data[i * bbox_size + 2]),
+          y2 = parseInt(bbox.data[i * bbox_size + 3]),
+          width = Math.abs(x2 - x1),
+          height = Math.abs(y2 - y1);
 
-            canvasCtx.strokeStyle = "red";
-            canvasCtx.strokeRect(x1, y1, width, height);
-            canvasCtx.stroke()
+        canvasCtx.strokeStyle = "red";
+        canvasCtx.strokeRect(x1, y1, width, height);
+        canvasCtx.stroke()
       }
     },
 
@@ -119,14 +131,13 @@ export default {
 
       for (let i = 0; i < points.length; i++) {
         for (let j = 0; j < 68; j++) {
-         var x1 = points[i][j * 2],
+          var x1 = points[i][j * 2],
             y1 = points[i][j * 2 + 1];
 
-
-            canvasCtx.moveTo(x1 + 2, y1);
-            canvasCtx.arc(x1, y1, 2, 0, 2 * Math.PI);
-            canvasCtx.strokeStyle = "red";
-            canvasCtx.stroke()
+          canvasCtx.moveTo(x1 + 2, y1);
+          canvasCtx.arc(x1, y1, 2, 0, 2 * Math.PI);
+          canvasCtx.strokeStyle = "red";
+          canvasCtx.stroke()
         }
       }
     },
@@ -143,17 +154,17 @@ export default {
 
       for (let i = 0; i < face_count; i++) {
         var x1 = parseInt(liveResult[i][0]),
-            y1 = parseInt(liveResult[i][1]),
-            x2 = parseInt(liveResult[i][2]),
-            y2 = parseInt(liveResult[i][3]),
-            result = liveResult[i][4] < 0.3 ? "Fake" : "Live",
-            width = Math.abs(x2 - x1),
-            height = Math.abs(y2 - y1);
+          y1 = parseInt(liveResult[i][1]),
+          x2 = parseInt(liveResult[i][2]),
+          y2 = parseInt(liveResult[i][3]),
+          result = liveResult[i][4] < 0.3 ? "Fake" : "Live",
+          width = Math.abs(x2 - x1),
+          height = Math.abs(y2 - y1);
 
         canvasCtx.strokeStyle = "red";
         canvasCtx.fillStyle = "blue";
         canvasCtx.strokeRect(x1, y1, width, height);
-        canvasCtx.fillText(result, x1, y1-10);
+        canvasCtx.fillText(result, x1, y1 - 10);
         canvasCtx.stroke();
       }
     },
@@ -170,17 +181,17 @@ export default {
 
       for (let i = 0; i < face_count; i++) {
         var x1 = parseInt(expressionResult[i][0]),
-            y1 = parseInt(expressionResult[i][1]),
-            x2 = parseInt(expressionResult[i][2]),
-            y2 = parseInt(expressionResult[i][3]),
+          y1 = parseInt(expressionResult[i][1]),
+          x2 = parseInt(expressionResult[i][2]),
+          y2 = parseInt(expressionResult[i][3]),
 
-            width = Math.abs(x2 - x1),
-            height = Math.abs(y2 - y1);
+          width = Math.abs(x2 - x1),
+          height = Math.abs(y2 - y1);
 
         canvasCtx.strokeStyle = "red";
         canvasCtx.fillStyle = "blue";
         canvasCtx.strokeRect(x1, y1, width, height);
-        canvasCtx.fillText("Yaw: " + this.emotions[expressionResult[i][4]], x1, y1-10);
+        canvasCtx.fillText("Yaw: " + this.emotions[expressionResult[i][4]], x1, y1 - 10);
         canvasCtx.stroke();
       }
     },
@@ -197,18 +208,18 @@ export default {
 
       for (let i = 0; i < face_count; i++) {
         var x1 = parseInt(poseResult[i][0]),
-            y1 = parseInt(poseResult[i][1]),
-            x2 = parseInt(poseResult[i][2]),
-            y2 = parseInt(poseResult[i][3]),
+          y1 = parseInt(poseResult[i][1]),
+          x2 = parseInt(poseResult[i][2]),
+          y2 = parseInt(poseResult[i][3]),
 
-            width = Math.abs(x2 - x1),
-            height = Math.abs(y2 - y1);
+          width = Math.abs(x2 - x1),
+          height = Math.abs(y2 - y1);
 
         canvasCtx.strokeStyle = "red";
         canvasCtx.fillStyle = "blue";
         canvasCtx.strokeRect(x1, y1, width, height);
         canvasCtx.fillText("Yaw: " + poseResult[i][4] + " Pitch: " + poseResult[i][5] + " Roll: " + poseResult[i][6],
-          x1, y1-10);
+          x1, y1 - 10);
         canvasCtx.stroke();
       }
     },
@@ -224,15 +235,15 @@ export default {
 
       var bbox = detectionResult.bbox;
       var face_count = bbox.shape[0],
-          bbox_size = bbox.shape[1];
+        bbox_size = bbox.shape[1];
 
       for (let i = 0; i < face_count; i++) {
         var x1 = parseInt(bbox.data[i * bbox_size]),
-            y1 = parseInt(bbox.data[i * bbox_size + 1]),
-            x2 = parseInt(bbox.data[i * bbox_size + 2]),
-            y2 = parseInt(bbox.data[i * bbox_size + 3]),
-            width = Math.abs(x2 - x1),
-            height = Math.abs(y2 - y1);
+          y1 = parseInt(bbox.data[i * bbox_size + 1]),
+          x2 = parseInt(bbox.data[i * bbox_size + 2]),
+          y2 = parseInt(bbox.data[i * bbox_size + 3]),
+          width = Math.abs(x2 - x1),
+          height = Math.abs(y2 - y1);
 
         const leftEye = eyeResult[i][0] ? "Close" : "Open";
         const rightEye = eyeResult[i][1] ? "Close" : "Open";
@@ -240,7 +251,7 @@ export default {
         canvasCtx.strokeStyle = "red";
         canvasCtx.fillStyle = "blue";
         canvasCtx.strokeRect(x1, y1, width, height);
-        canvasCtx.fillText("Left Eye: " + leftEye + " Right Eye: " + rightEye, x1, y1-10);
+        canvasCtx.fillText("Left Eye: " + leftEye + " Right Eye: " + rightEye, x1, y1 - 10);
         canvasCtx.stroke();
       }
     },
@@ -257,17 +268,17 @@ export default {
 
       for (let i = 0; i < face_count; i++) {
         var x1 = parseInt(genderResult[i][0]),
-            y1 = parseInt(genderResult[i][1]),
-            x2 = parseInt(genderResult[i][2]),
-            y2 = parseInt(genderResult[i][3]),
-            result = genderResult[i][4] > 0.6 ? "Male" : "Female",
-            width = Math.abs(x2 - x1),
-            height = Math.abs(y2 - y1);
+          y1 = parseInt(genderResult[i][1]),
+          x2 = parseInt(genderResult[i][2]),
+          y2 = parseInt(genderResult[i][3]),
+          result = genderResult[i][4] > 0.6 ? "Male" : "Female",
+          width = Math.abs(x2 - x1),
+          height = Math.abs(y2 - y1);
 
         canvasCtx.strokeStyle = "red";
         canvasCtx.fillStyle = "blue";
         canvasCtx.strokeRect(x1, y1, width, height);
-        canvasCtx.fillText(result, x1, y1-10);
+        canvasCtx.fillText(result, x1, y1 - 10);
         canvasCtx.stroke();
       }
     },
@@ -284,17 +295,17 @@ export default {
 
       for (let i = 0; i < face_count; i++) {
         var x1 = parseInt(ageResult[i][0]),
-            y1 = parseInt(ageResult[i][1]),
-            x2 = parseInt(ageResult[i][2]),
-            y2 = parseInt(ageResult[i][3]),
-            result = parseInt(ageResult[i][4]),
-            width = Math.abs(x2 - x1),
-            height = Math.abs(y2 - y1);
+          y1 = parseInt(ageResult[i][1]),
+          x2 = parseInt(ageResult[i][2]),
+          y2 = parseInt(ageResult[i][3]),
+          result = parseInt(ageResult[i][4]),
+          width = Math.abs(x2 - x1),
+          height = Math.abs(y2 - y1);
 
         canvasCtx.strokeStyle = "red";
         canvasCtx.fillStyle = "blue";
         canvasCtx.strokeRect(x1, y1, width, height);
-        canvasCtx.fillText("Age: " + result, x1, y1-10);
+        canvasCtx.fillText("Age: " + result, x1, y1 - 10);
         canvasCtx.stroke();
       }
     },
@@ -310,20 +321,20 @@ export default {
 
       var bbox = detectionResult.bbox;
       var face_count = bbox.shape[0],
-          bbox_size = bbox.shape[1];
+        bbox_size = bbox.shape[1];
 
       for (let i = 0; i < face_count; i++) {
         var x1 = parseInt(bbox.data[i * bbox_size]),
-            y1 = parseInt(bbox.data[i * bbox_size + 1]),
-            x2 = parseInt(bbox.data[i * bbox_size + 2]),
-            y2 = parseInt(bbox.data[i * bbox_size + 3]),
-            width = Math.abs(x2 - x1),
-            height = Math.abs(y2 - y1);
+          y1 = parseInt(bbox.data[i * bbox_size + 1]),
+          x2 = parseInt(bbox.data[i * bbox_size + 2]),
+          y2 = parseInt(bbox.data[i * bbox_size + 3]),
+          width = Math.abs(x2 - x1),
+          height = Math.abs(y2 - y1);
 
         canvasCtx.strokeStyle = "red";
         canvasCtx.fillStyle = "blue";
         canvasCtx.strokeRect(x1, y1, width, height);
-        canvasCtx.fillText("Person " + i, x1, y1-10);
+        canvasCtx.fillText("Person " + i, x1, y1 - 10);
         canvasCtx.stroke();
       }
     },

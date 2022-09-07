@@ -16,7 +16,7 @@ https://user-images.githubusercontent.com/82228271/187199680-208c7995-21b1-48d7-
 npm install face-recognition-plugin
 ```
 
-## Features
+## Table of Contents
 * **[Face Detection](#face-detection)**
 * **[Face Landmark Extraction](#face-landmark-extraction)**
 * **[Face Liveness Detection](#face-expression-detection)**
