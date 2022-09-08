@@ -3,13 +3,13 @@
     <div class="flex flex-col">
       <image-list @changeI="changeImage($event)"/>
       <button
-        @click='selectImage1'
+        @click='openCamera'
         class="flex items-center px-6 py-2 font-semibold text-white bg-gray-800 hover:opacity-95 focus:outline-none">
         Select Camera
       </button>
     </div>
+    <video id="live-video" v-if="isCameraStarted" v-show="false" width="640" height="480" autoplay/>
     <canvas id="live-canvas" width="640" height="480"/>
-    <video id="live-video" v-if="isCameraStarted" width="320" height="240" autoplay/>
     <div class="flex flex-col">
       <button @click="detectFace" type="button"
               class="px-6 py-2 font-semibold text-white bg-gray-800 rounded-md hover:opacity-95 focus:outline-none"
@@ -74,13 +74,35 @@ export default {
   },
   computed: {
     isCameraStarted() {
-      return this.$store.getters['camera/isCameraStarted']
+      return this.$store.getters['isCameraStarted']
     }
-
   },
+
   methods: {
+    async openCamera() {
+      await this.$store.dispatch('startCamera')
+          .then((stream) => {
+            const videoDiv = document.getElementById('live-video');
+            videoDiv.srcObject = stream;
+          })
+      await this.displayCamera();
+    },
+
+    closeCamera() {
+      this.$store.dispatch('stopCamera');
+    },
+
+    async displayCamera() {
+      const video = document.getElementById('live-video');
+      const canvas = document.getElementById('live-canvas');
+      const canvasCtx = canvas.getContext('2d');
+      canvasCtx.drawImage(video, 0, 0, 640, 480);
+      setTimeout(() => this.displayCamera(), 33);
+    },
+
     changeImage(filename) {
       this.filename = filename;
+      this.closeCamera();
       this.selectImage(filename);
     },
 

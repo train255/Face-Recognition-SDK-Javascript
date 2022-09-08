@@ -14,7 +14,7 @@ const draw = (context) => {
 
   };
 
-  img1.src = 'fr_detection.jpg';
+  img1.src = '1.jpg';
 };
 
 

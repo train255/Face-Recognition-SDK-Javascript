@@ -36,47 +36,47 @@
         <button
           @click='selectImage1'
           class="block px-6 py-2 font-semibold text-white bg-gray-800 hover:opacity-95 focus:outline-none">
-          fr_detection.jpg
+          1.jpg
         </button>
         <button
           @click='selectImage2'
           class="block px-6 py-2 font-semibold text-white bg-gray-800 hover:opacity-95 focus:outline-none">
-          fr_landmark.jpg
+          2.jpg
         </button>
         <button
           @click='selectImage3'
           class="block px-6 py-2 font-semibold text-white bg-gray-800 hover:opacity-95 focus:outline-none">
-          fr_liveness.png
+          3.png
         </button>
         <button
           @click='selectImage4'
           class="block px-6 py-2 font-semibold text-white bg-gray-800 hover:opacity-95 focus:outline-none">
-          fr_pose.jpg
+          4.jpg
         </button>
         <button
           @click='selectImage5'
           class="block px-6 py-2 font-semibold text-white bg-gray-800 hover:opacity-95 focus:outline-none">
-          fr_expression.jpg
+          5.jpg
         </button>
         <button
           @click='selectImage6'
           class="block px-6 py-2 font-semibold text-white bg-gray-800 hover:opacity-95 focus:outline-none">
-          fr_eye.jpg
+          6.jpg
         </button>
         <button
           @click='selectImage7'
           class="block px-6 py-2 font-semibold text-white bg-gray-800 hover:opacity-95 focus:outline-none">
-          fr_gender.jpg
+          7.jpg
         </button>
         <button
           @click='selectImage8'
           class="block px-6 py-2 font-semibold text-white bg-gray-800 hover:opacity-95 focus:outline-none">
-          fr_age.jpg
+          8.jpg
         </button>
         <button
           @click='selectImage9'
           class="block px-6 py-2 font-semibold text-white bg-gray-800 hover:opacity-95 focus:outline-none">
-          fr_feature.jpg
+          9.jpg
         </button>
       </div>
     </div>
@@ -92,31 +92,31 @@ export default {
   name: "imageList",
   methods: {
     selectImage1() {
-      this.$emit('changeI', 'fr_detection.jpg');
+      this.$emit('changeI', '1.jpg');
     },
     selectImage2() {
-      this.$emit('changeI', 'fr_landmark.jpg');
+      this.$emit('changeI', '2.jpg');
     },
     selectImage3() {
-      this.$emit('changeI', 'fr_liveness.png');
+      this.$emit('changeI', '3.png');
     },
     selectImage4() {
-      this.$emit('changeI', 'fr_pose.jpg');
+      this.$emit('changeI', '4.jpg');
     },
     selectImage5() {
-      this.$emit('changeI', 'fr_expression.jpg');
+      this.$emit('changeI', '5.jpg');
     },
     selectImage6() {
-      this.$emit('changeI', 'fr_eye.jpg');
+      this.$emit('changeI', '6.jpg');
     },
     selectImage7() {
-      this.$emit('changeI', 'fr_gender.jpg');
+      this.$emit('changeI', '7.jpg');
     },
     selectImage8() {
-      this.$emit('changeI', 'fr_age.jpg');
+      this.$emit('changeI', '8.jpg');
     },
     selectImage9() {
-      this.$emit('changeI', 'fr_feature.jpg');
+      this.$emit('changeI', '9.jpg');
     }
   }
 }
