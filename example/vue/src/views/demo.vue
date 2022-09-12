@@ -57,6 +57,7 @@ import * as faceSDK from "face-recognition-plugin";
 export default {
   data() {
     return {
+      mode: 0,
       emotions: {0: "angry", 1: "disgust", 2: "fear", 3: "smile", 4: "sad", 5: "surprise", 6: "neutral"},
       detectSession: null,
       liveSession: null,
@@ -74,17 +75,17 @@ export default {
   },
   computed: {
     isCameraStarted() {
-      return this.$store.getters['isCameraStarted']
+      return this.$store.getters['isCameraStarted'];
     }
   },
 
   methods: {
     async openCamera() {
       await this.$store.dispatch('startCamera')
-          .then((stream) => {
-            const videoDiv = document.getElementById('live-video');
-            videoDiv.srcObject = stream;
-          })
+        .then((stream) => {
+          const videoDiv = document.getElementById('live-video');
+          videoDiv.srcObject = stream;
+        })
       await this.displayCamera();
     },
 
@@ -97,6 +98,39 @@ export default {
       const canvas = document.getElementById('live-canvas');
       const canvasCtx = canvas.getContext('2d');
       canvasCtx.drawImage(video, 0, 0, 640, 480);
+
+      switch (this.mode) {
+        case 0:
+          await this.detectFace();
+          break;
+        case 1:
+          await this.extractLandmark();
+          break;
+        case 2:
+          await this.detectLivenessDetection();
+          break;
+        case 3:
+          await this.predictFaceExpression();
+          break;
+        case 4:
+          await this.predictFacePose();
+          break;
+        case 5:
+          await this.predictEyeCloseness();
+          break;
+        case 6:
+          await this.predictGender();
+          break;
+        case 7:
+          await this.predictAge();
+          break;
+        case 8:
+          await this.extractFeature();
+          break;
+        default:
+          await this.detectFace();
+      }
+
       setTimeout(() => this.displayCamera(), 33);
     },
 
@@ -119,6 +153,7 @@ export default {
     },
 
     async detectFace() {
+      this.mode = 0;
       const detectionResult = await faceSDK.detectFace(this.detectSession, 'live-canvas');
 
       var bbox = detectionResult.bbox;
@@ -139,11 +174,12 @@ export default {
 
         canvasCtx.strokeStyle = "red";
         canvasCtx.strokeRect(x1, y1, width, height);
-        canvasCtx.stroke()
+        canvasCtx.stroke();
       }
     },
 
     async extractLandmark() {
+      this.mode = 1;
       const detectionResult = await faceSDK.detectFace(this.detectSession, 'live-canvas');
       const points = await faceSDK.predictLandmark(this.landmarkSession, 'live-canvas', detectionResult.bbox);
 
@@ -165,6 +201,7 @@ export default {
     },
 
     async detectLivenessDetection() {
+      this.mode = 2;
       const detectionResult = await faceSDK.detectFace(this.detectSession, 'live-canvas');
       const liveResult = await faceSDK.predictLiveness(this.liveSession, 'live-canvas', detectionResult.bbox);
 
@@ -192,6 +229,7 @@ export default {
     },
 
     async predictFaceExpression() {
+      this.mode = 3;
       const detectionResult = await faceSDK.detectFace(this.detectSession, 'live-canvas');
       const expressionResult = await faceSDK.predictExpression(this.expressionSession, 'live-canvas', detectionResult.bbox);
 
@@ -219,6 +257,7 @@ export default {
     },
 
     async predictFacePose() {
+      this.mode = 4;
       const detectionResult = await faceSDK.detectFace(this.detectSession, 'live-canvas');
       const poseResult = await faceSDK.predictPose(this.poseSession, 'live-canvas', detectionResult.bbox);
 
@@ -247,6 +286,7 @@ export default {
     },
 
     async predictEyeCloseness() {
+      this.mode = 5;
       const detectionResult = await faceSDK.detectFace(this.detectSession, 'live-canvas');
       const points = await faceSDK.predictLandmark(this.landmarkSession, 'live-canvas', detectionResult.bbox);
       const eyeResult = await faceSDK.predictEye(this.eyeSession, 'live-canvas', points);
@@ -279,6 +319,7 @@ export default {
     },
 
     async predictGender() {
+      this.mode = 6;
       const detectionResult = await faceSDK.detectFace(this.detectSession, 'live-canvas');
       const genderResult = await faceSDK.predictGender(this.genderSession, 'live-canvas', detectionResult.bbox);
 
@@ -306,6 +347,7 @@ export default {
     },
 
     async predictAge() {
+      this.mode = 7;
       const detectionResult = await faceSDK.detectFace(this.detectSession, 'live-canvas');
       const ageResult = await faceSDK.predictAge(this.ageSession, 'live-canvas', detectionResult.bbox);
 
@@ -333,6 +375,7 @@ export default {
     },
 
     async extractFeature() {
+      this.mode = 8;
       const detectionResult = await faceSDK.detectFace(this.detectSession, 'live-canvas');
       const points = await faceSDK.predictLandmark(this.landmarkSession, 'live-canvas', detectionResult.bbox);
       const eyeResult = await faceSDK.extractFeature(this.featureSession, 'live-canvas', points);
