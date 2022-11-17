@@ -10,18 +10,23 @@
 
 <details open>
 <summary>How it works</summary>
+
 https://user-images.githubusercontent.com/82228271/187199680-208c7995-21b1-48d7-8758-3977452ff955.mp4
+
 </details>
 
 <details open>
 <summary>Installation</summary>
+
 ```bash
 npm install face-recognition-plugin
 ```
+
 </details>
 
 <details open>
 <summary>Table of Contents</summary>
+
 * **[Face Detection](#face-detection)**
 * **[Face Landmark Extraction](#face-landmark-extraction)**
 * **[Face Liveness Detection](#face-expression-detection)**
@@ -31,10 +36,12 @@ npm install face-recognition-plugin
 * **[Gender Detection](#gender-detection)**
 * **[Age Detection](#age-detection)**
 * **[Face Feature Embedding](#face-recognition)**
+
 </details>
 
 <details open>
 <summary>Examples</summary>
+
 - Vue3
 
 ```
@@ -43,6 +50,7 @@ npm install face-recognition-plugin
 node post-install.js
 npm run dev
 ```
+
 </details>
 
 <details>
@@ -148,6 +156,7 @@ Extract face feature vector in 512 dimension
 ```
 extractFeature(session, canvas_id, landmarks)
 ```
+
 </details>
 
 <details open>
@@ -160,4 +169,5 @@ Please reach out to me for your any projects in Python, Web Development and Comp
 <a target="_blank" href="https://join.slack.com/t/prenes/shared_invite/zt-1cx925fip-vL4nKJN64XBMbx8vdwHP7Q"><img src="https://img.shields.io/badge/slack-prenes-green.svg?logo=slack " alt="www.prenes.org"></a>
 <a target="_blank" href="skype:live:.cid.4b536a6c3cc88a8c?chat"><img src="https://img.shields.io/badge/skype-prenes-green.svg?logo=skype " alt="www.prenes.org"></a>
 </div>
+
 </details>
