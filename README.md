@@ -9,14 +9,14 @@
 </div>
 
 <details open>
-<summary>How it works</summary>
+<summary><h2>How it works</h2></summary>
 
 https://user-images.githubusercontent.com/82228271/187199680-208c7995-21b1-48d7-8758-3977452ff955.mp4
 
 </details>
 
 <details open>
-<summary>Installation</summary>
+<summary><h2>Installation</h2></summary>
 
 ```bash
 npm install face-recognition-plugin
@@ -25,7 +25,7 @@ npm install face-recognition-plugin
 </details>
 
 <details open>
-<summary>Table of Contents</summary>
+<summary><h2>Table of Contents</h2></summary>
 
 * **[Face Detection](#face-detection)**
 * **[Face Landmark Extraction](#face-landmark-extraction)**
@@ -40,7 +40,7 @@ npm install face-recognition-plugin
 </details>
 
 <details open>
-<summary>Examples</summary>
+<summary><h2>Examples</h2></summary>
 
 - Vue3
 
@@ -54,7 +54,7 @@ npm run dev
 </details>
 
 <details>
-<summary>Documentation</summary>
+<summary><h2>Documentation</h2></summary>
 
 Here are some useful documentation
 
@@ -160,7 +160,7 @@ extractFeature(session, canvas_id, landmarks)
 </details>
 
 <details open>
-<summary>Contact</summary>
+<summary><h2>Contact</h2></summary>
 
 Please reach out to me for your any projects in Python, Web Development and Computer Vision and NLP fields.
 <div align="left">
