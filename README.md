@@ -8,16 +8,25 @@
 <a href="https://www.producthunt.com/posts/face-recognition-javascript-sdk?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-face&#0045;recognition&#0045;javascript&#0045;sdk" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=357308&theme=light" alt="Face&#0032;Recognition&#0032;Javascript&#0032;SDK - This&#0032;product&#0032;includes&#0032;components&#0032;for&#0032;facial&#0032;recognition&#0046; | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
 </div>
 
+<details open>
+<summary><h2>How it works</h2></summary>
 
-## How it works
 https://user-images.githubusercontent.com/82228271/187199680-208c7995-21b1-48d7-8758-3977452ff955.mp4
 
-## Installation
-```
+</details>
+
+<details open>
+<summary><h2>Installation</h2></summary>
+
+```bash
 npm install face-recognition-plugin
 ```
 
-## Table of Contents
+</details>
+
+<details open>
+<summary><h2>Table of Contents</h2></summary>
+
 * **[Face Detection](#face-detection)**
 * **[Face Landmark Extraction](#face-landmark-extraction)**
 * **[Face Liveness Detection](#face-expression-detection)**
@@ -28,7 +37,11 @@ npm install face-recognition-plugin
 * **[Age Detection](#age-detection)**
 * **[Face Feature Embedding](#face-recognition)**
 
-## Examples
+</details>
+
+<details open>
+<summary><h2>Examples</h2></summary>
+
 - Vue3
 
 ```
@@ -37,7 +50,11 @@ npm install face-recognition-plugin
 node post-install.js
 npm run dev
 ```
-## Documentation
+
+</details>
+
+<details>
+<summary><h2>Documentation</h2></summary>
 
 Here are some useful documentation
 
@@ -140,11 +157,17 @@ Extract face feature vector in 512 dimension
 extractFeature(session, canvas_id, landmarks)
 ```
 
-## Contact
+</details>
 
+<details open>
+<summary><h2>Contact</h2></summary>
+
+Please reach out to me for your any projects in Python, Web Development and Computer Vision and NLP fields.
 <div align="left">
 <a target="_blank" href="https://t.me/jareddean"><img src="https://img.shields.io/badge/telegram-prenes-green.svg?logo=telegram " alt="www.prenes.org"></a>
 <a target="_blank" href="https://wa.me/+14422295661"><img src="https://img.shields.io/badge/whatsapp-prenes-green.svg?logo=whatsapp " alt="www.prenes.org"></a>
 <a target="_blank" href="https://join.slack.com/t/prenes/shared_invite/zt-1cx925fip-vL4nKJN64XBMbx8vdwHP7Q"><img src="https://img.shields.io/badge/slack-prenes-green.svg?logo=slack " alt="www.prenes.org"></a>
 <a target="_blank" href="skype:live:.cid.4b536a6c3cc88a8c?chat"><img src="https://img.shields.io/badge/skype-prenes-green.svg?logo=skype " alt="www.prenes.org"></a>
 </div>
+
+</details>
