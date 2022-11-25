@@ -28,7 +28,7 @@
     "terser-webpack-plugin": "^5.2.5",
     "ndarray": "^1.0.19",
     "ndarray-ops": "^1.2.2",
-    "onnxruntime-web": "^1.12.1"
+    "onnxruntime-web": "^1.13.1"
   },
   "devDependencies": {
     "@babel/core": "^7.18.10",
