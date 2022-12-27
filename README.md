@@ -42,14 +42,8 @@ npm install face-recognition-plugin
 <details open>
 <summary><h2>Examples</h2></summary>
 
-- Vue3
-
-```
-cd example/vue
-npm install face-recognition-plugin
-node post-install.js
-npm run dev
-```
+* [Vue.js Demo](https://github.com/AI-Innovator/Face-Recognition-SDK-Demo-Vue)
+* [React.js Demo](https://github.com/AI-Innovator/Face-Recognition-SDK-Demo-React)
 
 </details>
 
