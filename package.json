@@ -1,6 +1,6 @@
 {
   "name": "face-recognition-plugin",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AI-Innovator/Face-SDK-Javascript.git"
+    "url": "git+https://github.com/AI-Innovator/Face-Recognition-SDK-Javascript.git"
   },
   "keywords": [],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/AI-Innovator/Face-SDK-Javascript/issues"
+    "url": "https://github.com/AI-Innovator/Face-Recognition-SDK-Javascript/issues"
   },
-  "homepage": "https://github.com/AI-Innovator/Face-SDK-Javascript#readme",
+  "homepage": "https://github.com/AI-Innovator/Face-Recognition-SDK-Javascript#readme",
   "dependencies": {
     "babel-core": "^6.26.3",
     "babel-jest": "^27.4.2",
@@ -28,7 +28,7 @@
     "terser-webpack-plugin": "^5.2.5",
     "ndarray": "^1.0.19",
     "ndarray-ops": "^1.2.2",
-    "onnxruntime-web": "^1.13.1"
+    "onnxruntime-web": "^1.14.0"
   },
   "devDependencies": {
     "@babel/core": "^7.18.10",
