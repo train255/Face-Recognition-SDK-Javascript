@@ -1,6 +1,6 @@
 {
-  "name": "face-recognition-plugin",
-  "version": "1.0.8",
+  "name": "faceplugin",
+  "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
