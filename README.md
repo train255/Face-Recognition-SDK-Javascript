@@ -19,7 +19,7 @@ https://user-images.githubusercontent.com/82228271/187199680-208c7995-21b1-48d7-
 <summary><h2>Installation</h2></summary>
 
 ```bash
-npm install face-recognition-plugin
+npm install faceplugin
 ```
 
 </details>
