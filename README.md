@@ -1,5 +1,5 @@
 <div align="center">
-<img alt="faceplugin" src="https://github.com/faceplugin/Face-Recognition-SDK-Javascript/assets/82228271/cab95553-8881-41ca-b37d-a0606877c942">
+<img alt="faceplugin" src="https://github.com/faceplugin/Face-Recognition-SDK-Javascript/assets/82228271/cab95553-8881-41ca-b37d-a0606877c942" width="300" width="300">
 </div>
 
 
