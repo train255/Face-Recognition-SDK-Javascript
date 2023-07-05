@@ -8,7 +8,6 @@
 <img src="https://img.shields.io/static/v1?label=%F0%9F%8C%9F&message=If%20Useful&style=style=flat&color=BC4E99" alt="Star Badge"/>
 <img src="https://img.shields.io/github/issues/genderev/assassin" alt="issue"/>
 <img src="https://img.shields.io/github/issues-pr/genderev/assassin" alt="pr"/>
-<a href="https://www.producthunt.com/posts/face-recognition-javascript-sdk?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-face&#0045;recognition&#0045;javascript&#0045;sdk" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=357308&theme=light" alt="Face&#0032;Recognition&#0032;Javascript&#0032;SDK - This&#0032;product&#0032;includes&#0032;components&#0032;for&#0032;facial&#0032;recognition&#0046; | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
 </div>
 
 <details open>
