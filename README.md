@@ -46,7 +46,7 @@ npm install faceplugin
 
 * [Vue.js Demo](https://github.com/AI-Innovator/Face-Recognition-SDK-Demo-Vue)
 * [React.js Demo](https://github.com/AI-Innovator/Face-Recognition-SDK-Demo-React)
-
+* [![LogIn Demo](https://img.youtube.com/vi/1aogUPLjdtw/default.jpg)](https://youtu.be/1aogUPLjdtw)
 </details>
 
 <details>
