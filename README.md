@@ -13,7 +13,7 @@
 <details open>
 <summary><h2>How it works</h2></summary>
 
-https://user-images.githubusercontent.com/82228271/187199680-208c7995-21b1-48d7-8758-3977452ff955.mp4
+
 
 </details>
 
@@ -44,9 +44,16 @@ npm install faceplugin
 <details open>
 <summary><h2>Examples</h2></summary>
 
+https://user-images.githubusercontent.com/82228271/187199680-208c7995-21b1-48d7-8758-3977452ff955.mp4
+
+
 * [Vue.js Demo](https://github.com/AI-Innovator/Face-Recognition-SDK-Demo-Vue)
 * [React.js Demo](https://github.com/AI-Innovator/Face-Recognition-SDK-Demo-React)
-* [![LogIn Demo](https://img.youtube.com/vi/1aogUPLjdtw/default.jpg)](https://youtu.be/1aogUPLjdtw)
+
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=1aogUPLjdtw" target="_blank">
+ <img src="http://img.youtube.com/vi/1aogUPLjdtw/mqdefault.jpg" alt="Watch the video" width="960" height="520" border="10" />
+</a>
+
 </details>
 
 <details>
