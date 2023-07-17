@@ -51,7 +51,7 @@ https://user-images.githubusercontent.com/82228271/187199680-208c7995-21b1-48d7-
 * [React.js Demo](https://github.com/AI-Innovator/Face-Recognition-SDK-Demo-React)
 
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=1aogUPLjdtw" target="_blank">
- <img src="http://img.youtube.com/vi/1aogUPLjdtw/mqdefault.jpg" alt="Watch the video" width="960" height="520" border="10" />
+ <img src="http://img.youtube.com/vi/1aogUPLjdtw/maxresdefault.jpg" alt="Watch the video" width="960" height="520" border="10" />
 </a>
 
 </details>
@@ -160,5 +160,14 @@ Extract face feature vector in 512 dimension
 extractFeature(session, canvas_id, landmarks)
 ```
 
+</details>
+
+
+<details open>
+<summary><h2>Contact</h2></summary>
+
+For any inquiries or questions, please contact us at info@faceplugin.com.
+<div align="center">
+<a target="_blank" href="https://wa.me/+14422295661"><img src="https://img.shields.io/badge/whatsapp-faceplugin-green.svg?logo=whatsapp " alt="www.faceplugin.com"></a>
 </details>
 
