@@ -50,6 +50,7 @@ https://user-images.githubusercontent.com/82228271/187199680-208c7995-21b1-48d7-
 * [Vue.js Demo](https://github.com/AI-Innovator/Face-Recognition-SDK-Demo-Vue)
 * [React.js Demo](https://github.com/AI-Innovator/Face-Recognition-SDK-Demo-React)
 
+[**Please subscribe on Youtube channel**]
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=1aogUPLjdtw" target="_blank">
  <img src="http://img.youtube.com/vi/1aogUPLjdtw/maxresdefault.jpg" alt="Watch the video" width="960" height="520" border="10" />
 </a>
